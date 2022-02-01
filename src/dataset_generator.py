@@ -12,10 +12,11 @@ What we will need to input:
 '''
 
 if __name__ == '__main__':
+    
     '''Creating data parser for data_generator.py'''
     datagenparser = argparse.ArgumentParser(description='[StratifIAD] Parameters for dataset generator', allow_abbrev=False)
     datagenparser.add_argument('-c','--config-file', 
-                                type=str, default='../configs/default.yaml', 
+                                type=str, default='../configs/default_config_dataset.yaml', 
                                 help='Config file for the experiment')
 
     args = datagenparser.parse_args()
