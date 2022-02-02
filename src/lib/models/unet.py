@@ -14,7 +14,9 @@ class ConvBlock(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
+        x = nn.BatchNorm2d(x)
         x = F.relu(self.conv2(x))
+        x = nn.BatchNorm2d(x)
         return x
 
 
