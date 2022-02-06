@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 class ConvBlock(nn.Module):
     def __init__(self, inchannels, outchannels, padding=1):
         super().__init__()
@@ -20,7 +19,6 @@ class ConvBlock(nn.Module):
         x = self.batchnorm(x)
         return x
 
-
 class UpBlock(nn.Module):
     def __init__(self, inchannels, outchannels):
         super().__init__()
@@ -33,7 +31,6 @@ class UpBlock(nn.Module):
         x = torch.cat([locality_info, x], 1) # adding in dim = 1 which is channels.
         x = self.conv(x)
         return x
-
 
 class Unet(nn.Module):
     def __init__(self, inchannels, outchannels, net_depth):
@@ -77,7 +74,6 @@ class Unet(nn.Module):
         x = x.squeeze(dim=1)
 
         return x
-
 def test_model():
     x = torch.randn((4,3,128,128))
     model = Unet(inchannels=3, outchannels=3, net_depth=4)
