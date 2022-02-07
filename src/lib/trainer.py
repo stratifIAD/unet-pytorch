@@ -39,8 +39,6 @@ class Trainer:
             total_loss += loss
             loss.backward()
             self.op.step()
-        # Ignore last in loader
-        # TODO 
         return total_loss / len(train_loader)
     
 
