@@ -59,6 +59,5 @@ class Trainer:
             print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, test loss = {test_loss}')
             wandb.log({"loss/train": train_loss, "loss/dev": test_loss}, step=epoch)
 
-
     def predict(self):
         pass
