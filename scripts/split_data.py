@@ -2,6 +2,8 @@ import os
 import argparse
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import KFold
+import tqdm
 
 if __name__ == "__main__":
     '''
@@ -23,17 +25,32 @@ if __name__ == "__main__":
     output_dir = 'data/experiment_'+f'{args.num_exp:03}/'
     os.makedirs(output_dir, exist_ok=True)
 
-    for i in range(len(wsiFolds)):
-        filename = f'{output_dir}fold_{i:02}.csv'
-        print(f'Saving fold #{i} to {filename}')
-        wsiFolds[i].to_csv(filename, index=False)
-    
-    
-    # num_wsi = len(WSIs)
-    # slides_per_fold = num_wsi/args.num_groups
-    # train_perc = 1 - (slides_per_fold/num_wsi)
-    # train_wsi = WSIs.sample(frac=train_perc)
-    # test_wsi = WSIs.drop(train_wsi.index)
+    assert len(wsiFolds) == args.num_folds, f'Consider a different number of folds so number of WSI is divisible.'
 
-    
+    for i in range(args.num_folds):
+        # Save one of the folds as test dataset --> used for cross testing
+        testfile = f'{output_dir}test_{i:02}.csv'
+        print(f'Saving test fold #{i} to {testfile}')
+        wsiFolds[i].to_csv(testfile, index=False)
+
+        # Join the remaining folds and do cross validation
+        df = pd.concat([x for j, x in enumerate(wsiFolds) if j != i])
+        trainfile = f'{output_dir}train_{i:02}.csv'
+        
+        print(f'Saving train/dev dataset #{i}')
+        # df.to_csv(trainfile, index=False)
+        kf = KFold(n_splits = args.num_folds - 1, shuffle = False, random_state = None)
+        cv = 0
+        for train_index, test_index in kf.split(df):
+            print(f'Saving train/dev dataset #{i} --> CV {cv}')
+
+            trainfile = f'{output_dir}train_{i:02}_cv_{cv:02}.csv'
+            devfile = f'{output_dir}dev_{i:02}_cv_{cv:02}.csv'
+
+            # print("TRAIN:", train_index, "TEST:", test_index)
+            train, dev = df.iloc[train_index], df.iloc[test_index]
+            
+            train.to_csv(trainfile, index=False)
+            dev.to_csv(devfile, index=False)
+            cv += 1
     
