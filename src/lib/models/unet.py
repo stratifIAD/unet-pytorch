@@ -76,7 +76,7 @@ class Unet(nn.Module):
         return x
 def test_model():
     x = torch.randn((4,3,128,128))
-    model = Unet(inchannels=3, outchannels=3, net_depth=4)
+    model = Unet(inchannels=3, outchannels=3, net_depth=3)
     preds = model(x)
     print(f'input shape: {x.shape}')
     print(f'output shape: {preds.shape}')
