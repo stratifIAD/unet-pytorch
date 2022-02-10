@@ -14,10 +14,12 @@ class stratifiadDataset(Dataset):
         """
         Args:
             root_dir (string): Directory with all the WSI. Each WSI has 4 folders:
-                - macenko: all patches with macenko normalization.
-                - masks: all masks from patches.
-                - patches: original patches without normalization.
-                - vahadane: all patches with vahadane normalization.
+            --root_dir
+                --WSI_name
+                    --macenko: all patches with macenko normalization.
+                    --masks: all masks from patches.
+                    --patches: original patches without normalization.
+                    --vahadane: all patches with vahadane normalization.
             transform (callable, optional): Optional transform to be applied on a sample.
         """
         df = pd.read_csv(meta_data)
