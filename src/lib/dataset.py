@@ -1,50 +1,60 @@
 import os
-
 import numpy as np
 import pandas as pd
-import tifffile as tiff
-
 import torch
+import glob
 from torch.utils.data import Dataset
+from PIL import Image
 
-class CGIARDataset(Dataset):
-    """ CGIAR Dataset for satellite segmentation/classification """
 
-    def __init__(self, meta_data, root_dir, transform=None):
+class stratifiadDataset(Dataset):
+    """ StratifIAD Dataset for plaques and tangle segmentation/classification """
+
+    def __init__(self, meta_data, root_dir, normalization, transform=None):
         """
         Args:
-            root_dir (string): Directory with all the images.
+            root_dir (string): Directory with all the WSI. Each WSI has 4 folders:
+                - macenko: all patches with macenko normalization.
+                - masks: all masks from patches.
+                - patches: original patches without normalization.
+                - vahadane: all patches with vahadane normalization.
             transform (callable, optional): Optional transform to be applied on a sample.
         """
         df = pd.read_csv(meta_data)
-        self.patch_list = df.input_img.to_list()
+        self.wsi_list = df.wsi.to_list()
         self.root_dir = root_dir
         self.transform = transform
+        self.normalization = normalization
+
+        if self.normalization == 'macenko':
+            self.imgs = np.concatenate([glob.glob(os.path.join(self.root_dir, self.wsi_list[i], 'macenko','*.png')) for i in range(len(self.wsi_list))])
+        elif self.normalization == 'vahadane':
+            self.imgs = np.concatenate([glob.glob(os.path.join(self.root_dir, self.wsi_list[i], 'vahadane','*.png')) for i in range(len(self.wsi_list))])
+        else:
+            print(f'[ERROR] Normalization method is not recognized. Change the configuration file.')
 
     def __len__(self):
-        return len(self.patch_list)
+        return len(self.imgs)
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
         
         '''
-        Load patch and mask array:
-        - image comes from GeoTIFF format --> no need to transpose it.
-        - mask is one-hot-encoded --> 1 for water, 0 for background.
+        Load patch and mask arrays:
+        - images come from a single WSI.
+        - mask --> 1 for plaques, 0 for background.
         '''
-        patch_img = tiff.imread(os.path.join(self.root_dir,'images/',self.patch_list[idx]))
-        # patch_img = np.load(os.path.join(self.root_dir,'images/',self.patch_list[idx]+'.npy'))
-        # patch_img = patch_img.transpose(1,2,0)
-        gt_img = tiff.imread(os.path.join(self.root_dir,'masks/',self.patch_list[idx].replace('.tif','_mask.tif')))
 
-        sample = {'image': patch_img, 'gt': gt_img}
+        image = Image.open(self.imgs[idx])
+        gt_img = Image.open(self.imgs[idx].replace(self.normalization,'masks').replace('patch','mask')).convert('1')
 
-        if self.transform:
+        sample = {'image': np.array(image), 'gt': np.array(gt_img)}
+
+        if self.transform is not None:
             sample = self.transform(sample)
 
         return sample['image'], sample['gt']
-    
     
     '''scalar 
     def find_max(im_pths):
