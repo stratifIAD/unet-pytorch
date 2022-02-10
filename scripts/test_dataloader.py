@@ -20,17 +20,17 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--data_dir", type=str, default="../../togitlab/dataset/128x128")
 args = parser.parse_args()
 
-# transformed_StratifIAD_dataset = stratifiadDataset(meta_data='data/experiment_001/train_00_cv_00.csv',
-# 									root_dir=args.data_dir,
-#                                     normalization = 'macenko',
-#                                     transform=transforms.Compose([
-#                                     Rescale(128),
-#                                     ToTensor()
-#                                     ]))
-
 transformed_StratifIAD_dataset = stratifiadDataset(meta_data='data/experiment_001/train_00_cv_00.csv',
 									root_dir=args.data_dir,
-                                    normalization='macenko')
+                                    normalization = 'macenko',
+                                    transform=transforms.Compose([
+                                    Rescale(128),
+                                    ToTensor()
+                                    ]))
+
+# transformed_StratifIAD_dataset = stratifiadDataset(meta_data='data/experiment_001/train_00_cv_00.csv',
+# 									root_dir=args.data_dir,
+#                                     normalization='macenko')
 
 dataloader = DataLoader(transformed_StratifIAD_dataset, batch_size=2,
                         shuffle=True, num_workers=2)
