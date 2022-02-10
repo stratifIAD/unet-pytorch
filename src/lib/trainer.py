@@ -4,8 +4,8 @@ from tqdm import tqdm
 import torch
 import wandb
 
-from models.unet import Unet
-from models.conv_net import ConvNet
+from .models.unet import Unet
+from .models.conv_net import ConvNet
 
 class Trainer:
     def __init__(self, model_opts, train_par, loaders):

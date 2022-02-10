@@ -4,15 +4,20 @@ from addict import Dict
 import wandb
 import os
 
-from lib import 
+from torch.utils.data import DataLoader
+from torch.utils.data.sampler import SubsetRandomSampler
+from torchvision import transforms
+
+from lib.trainer import Trainer
+from lib.dataset import stratifiadDataset
+from lib.transforms import ToTensor, Rescale
+
 
 if __name__ == "__main__":
 
     '''Creating data parser for train.py'''
     trainparser = argparse.ArgumentParser(description='[StratifIAD] Parameters for training', allow_abbrev=False)
-    trainparser.add_argument('-c','--config-file', 
-                                type=str, default='../configs/default_config_train.yaml', 
-                                help='Config file for the experiment')
+    trainparser.add_argument('-c','--config-file', type=str, default='configs/default_config_train.yaml', help='Config file for the experiment')
 
     args = trainparser.parse_args()
 
@@ -21,29 +26,29 @@ if __name__ == "__main__":
     wandb.init(project="stratifIAD", entity="gabrieljg")
     wandb.config.update(conf)
 
-    train_file = os.path.join(args.split_dir, 'train_df.csv')
-    dev_file = os.path.join(args.split_dir, 'dev_df.csv')
+    data_dir = conf.dataset.data_dir
+    train_file = conf.dataset.train
+    dev_file = conf.dataset.dev
+    normalization = conf.dataset.normalization
+    print(data_dir, train_file, dev_file, normalization)
 
-    train_dataset = CGIARDataset(meta_data=train_file,
-                                root_dir=args.data_dir,
+    train_dataset = stratifiadDataset(meta_data=train_file,
+                                root_dir=data_dir, 
+                                normalization=normalization,
                                 transform=transforms.Compose([
-                                Rescale(512), ToTensor()]))
-    dev_dataset = CGIARDataset(meta_data=dev_file,
-                              root_dir=args.data_dir,
-                              transform=transforms.Compose([
-                              Rescale(512), ToTensor()]))
+                                Rescale(128), ToTensor()]))
+    dev_dataset = stratifiadDataset(meta_data=dev_file,
+                                root_dir=data_dir,
+                                normalization=normalization,
+                                transform=transforms.Compose([
+                                Rescale(128), ToTensor()]))
 
-    if args.load_limit == -1:
-      sampler, shuffle = None, True
-    else:
-      sampler, shuffle = SubsetRandomSampler(range(args.load_limit)), False
-
-    train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size,
-                            shuffle=shuffle, num_workers=1, sampler=sampler)
-    dev_dataloader = DataLoader(dev_dataset, batch_size=args.batch_size,
-                            shuffle=shuffle, num_workers=1, sampler=sampler)
+    train_dataloader = DataLoader(train_dataset, batch_size=conf.train_par.batch_size,
+                            shuffle=True, num_workers=conf.train_par.workers, pin_memory=True)
+    dev_dataloader = DataLoader(dev_dataset, batch_size=conf.train_par.batch_size,
+                            shuffle=True, num_workers=conf.train_par.workers, pin_memory=True)
 
     loaders = {'train': train_dataloader, 'val': dev_dataloader}
 
-    trainer = Trainer(model_opts=conf.model_opts, loaders=loaders)
-    trainer.train(args.epochs)
+    trainer = Trainer(model_opts=conf.model_opts, train_par=conf.train_par, loaders=loaders)
+    trainer.train(conf.train_par.epochs)

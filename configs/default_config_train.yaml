@@ -3,12 +3,17 @@ model_opts:
   args:
     inchannels: 3
     outchannels: 1
-    net_depth: 5
+    net_depth: 3
     
 train_par:
-    epochs: 100
-    batch: 4 
-    workers: 1
-    lr: 0.001
+  epochs: 10
+  batch_size: 2
+  workers: 2
+  lr: 0.001
 
-dataset: "water"
+dataset: 
+  data_dir: "../../togitlab/dataset/128x128"
+  train: "data/experiment_001/train_00_cv_00.csv"
+  dev: "data/experiment_001/dev_00_cv_00.csv"
+  test: "data/experiment_001/test_00.csv"
+  normalization: "macenko"
