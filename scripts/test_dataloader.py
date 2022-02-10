@@ -4,31 +4,41 @@ import argparse
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from src.dataset import GRSSDataset
-from src.transforms import ToTensor, Rescale
+from src.lib.dataset import stratifiadDataset
+from src.lib.transforms import ToTensor, Rescale
+
+import os
+import pandas as pd
+import glob
+import numpy as np
 
 # Ignore warnings
 import warnings
 warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--data_dir", type=str, default="dfc2021_dse_train/Train")
+parser.add_argument("--data_dir", type=str, default="../../togitlab/dataset/128x128")
 args = parser.parse_args()
 
-transformed_GRSS_dataset = GRSSDataset(meta_data='data/train_df.csv',
+# transformed_StratifIAD_dataset = stratifiadDataset(meta_data='data/experiment_001/train_00_cv_00.csv',
+# 									root_dir=args.data_dir,
+#                                     normalization = 'macenko',
+#                                     transform=transforms.Compose([
+#                                     Rescale(128),
+#                                     ToTensor()
+#                                     ]))
+
+transformed_StratifIAD_dataset = stratifiadDataset(meta_data='data/experiment_001/train_00_cv_00.csv',
 									root_dir=args.data_dir,
-                                    transform=transforms.Compose([
-                                    Rescale(512),
-                                    ToTensor()
-                                    ]))
+                                    normalization='macenko')
 
-dataloader = DataLoader(transformed_GRSS_dataset, batch_size=4,
-                        shuffle=True, num_workers=4)
+dataloader = DataLoader(transformed_StratifIAD_dataset, batch_size=2,
+                        shuffle=True, num_workers=2)
 
 
-#############################################################
-# To test if GRSSDataset and Dataloader is working properly #
-#############################################################
+###################################################################
+# To test if stratifiadDataset and Dataloader is working properly #
+###################################################################
 for i_batch, sample_batched in enumerate(dataloader):
 	images, gt = sample_batched
 	print(i_batch, images.size(), gt.size())
