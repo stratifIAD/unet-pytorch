@@ -8,11 +8,11 @@ from models.unet import Unet
 from models.conv_net import ConvNet
 
 class Trainer:
-    def __init__(self, model_opts, loaders):
+    def __init__(self, model_opts, train_par, loaders):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.set_model(model_opts)
         self.loaders = loaders
-        self.op = torch.optim.Adam(self.model.parameters(), lr=0.001)
+        self.op = torch.optim.Adam(self.model.parameters(), lr=train_par.lr)
 
     def set_model(self, model_opts):
         model_def = globals()[model_opts.name]
