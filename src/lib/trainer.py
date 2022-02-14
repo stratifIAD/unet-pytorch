@@ -29,7 +29,7 @@ class Trainer:
         return self.loss_f(y_hat, y)
 
     def train_epoch(self, train_loader):
-        self.model.train()
+        self.model.train
         total_loss = 0
         for img, mask in tqdm(train_loader):
             self.op.zero_grad()
@@ -41,7 +41,6 @@ class Trainer:
             self.op.step()
         return total_loss / len(train_loader)
     
-
     def test(self, test_loader):
         self.model.eval()  
         total_loss = 0

@@ -1,9 +1,11 @@
 import argparse
+from linecache import cache
 import yaml
 from addict import Dict
 import wandb
 import os
 
+import torch
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import transforms
@@ -11,7 +13,6 @@ from torchvision import transforms
 from lib.trainer import Trainer
 from lib.dataset import stratifiadDataset
 from lib.transforms import ToTensor, Rescale
-
 
 if __name__ == "__main__":
 
@@ -26,20 +27,25 @@ if __name__ == "__main__":
     wandb.init(project="stratifIAD", entity="gabrieljg")
     wandb.config.update(conf)
 
+    torch.backends.cudnn.benchmark = True
+
     data_dir = conf.dataset.data_dir
     train_file = conf.dataset.train
     dev_file = conf.dataset.dev
     normalization = conf.dataset.normalization
+    cache_data = conf.dataset.cache_data
     print(data_dir, train_file, dev_file, normalization)
 
     train_dataset = stratifiadDataset(meta_data=train_file,
                                 root_dir=data_dir, 
                                 normalization=normalization,
+                                cache_data=cache_data,
                                 transform=transforms.Compose([
                                 Rescale(128), ToTensor()]))
     dev_dataset = stratifiadDataset(meta_data=dev_file,
                                 root_dir=data_dir,
                                 normalization=normalization,
+                                cache_data=cache_data,
                                 transform=transforms.Compose([
                                 Rescale(128), ToTensor()]))
 
