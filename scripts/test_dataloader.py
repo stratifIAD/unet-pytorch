@@ -23,6 +23,7 @@ args = parser.parse_args()
 transformed_StratifIAD_dataset = stratifiadDataset(meta_data='data/experiment_001/train_00_cv_00.csv',
 									root_dir=args.data_dir,
                                     normalization = 'macenko',
+                                    cache_data=True,
                                     transform=transforms.Compose([
                                     Rescale(128),
                                     ToTensor()
