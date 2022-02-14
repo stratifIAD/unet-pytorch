@@ -10,7 +10,7 @@ from PIL import Image
 class stratifiadDataset(Dataset):
     """ StratifIAD Dataset for plaques and tangle segmentation/classification """
 
-    def __init__(self, meta_data, root_dir, normalization, transform=None):
+    def __init__(self, meta_data, root_dir, normalization, cache_data=True, transform=None):
         """
         Args:
             root_dir (string): Directory with all the WSI. Each WSI has 4 folders:
@@ -27,31 +27,44 @@ class stratifiadDataset(Dataset):
         self.root_dir = root_dir
         self.transform = transform
         self.normalization = normalization
+        self.cache_data = cache_data
 
         if self.normalization == 'macenko':
-            self.imgs = np.concatenate([glob.glob(os.path.join(self.root_dir, self.wsi_list[i], 'macenko','*.png')) for i in range(len(self.wsi_list))])
+            self.imgs_path = np.concatenate([glob.glob(os.path.join(self.root_dir, self.wsi_list[i], 'macenko','*.png')) for i in range(len(self.wsi_list))])
         elif self.normalization == 'vahadane':
-            self.imgs = np.concatenate([glob.glob(os.path.join(self.root_dir, self.wsi_list[i], 'vahadane','*.png')) for i in range(len(self.wsi_list))])
+            self.imgs_path = np.concatenate([glob.glob(os.path.join(self.root_dir, self.wsi_list[i], 'vahadane','*.png')) for i in range(len(self.wsi_list))])
         else:
             print(f'[ERROR] Normalization method is not recognized. Change the configuration file.')
 
+        if cache_data:
+            dataset_imgs = []
+            dataset_gt = []
+            for data in self.imgs_path:
+                dataset_imgs.append(np.array(Image.open(data)))
+                dataset_gt.append(np.array(Image.open(data.replace(self.normalization,'masks').replace('patch','mask')).convert('1')))
+            self.dataset_imgs = dataset_imgs.copy()
+            self.dataset_gt = dataset_gt.copy()
+
     def __len__(self):
-        return len(self.imgs)
+        return len(self.imgs_path)
 
     def __getitem__(self, idx):
-        if torch.is_tensor(idx):
-            idx = idx.tolist()
+        # if torch.is_tensor(idx):
+        #     idx = idx.tolist()
         
         '''
         Load patch and mask arrays:
         - images come from a single WSI.
         - mask --> 1 for plaques, 0 for background.
         '''
+        if self.cache_data:
+            image = self.dataset_imgs[idx]
+            gt_img = self.dataset_gt[idx]
+        else:
+            image = np.array(Image.open(self.imgs_path[idx]))
+            gt_img = np.array(Image.open(self.imgs_path[idx].replace(self.normalization,'masks').replace('patch','mask')).convert('1'))
 
-        image = Image.open(self.imgs[idx])
-        gt_img = Image.open(self.imgs[idx].replace(self.normalization,'masks').replace('patch','mask')).convert('1')
-
-        sample = {'image': np.array(image), 'gt': np.array(gt_img)}
+        sample = {'image': image, 'gt': gt_img}
 
         if self.transform is not None:
             sample = self.transform(sample)
