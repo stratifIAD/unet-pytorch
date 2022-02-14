@@ -7,13 +7,14 @@ model_opts:
     
 train_par:
   epochs: 10
-  batch_size: 2
-  workers: 2
+  batch_size: 32
+  workers: 4
   lr: 0.001
 
-dataset: 
+dataset:
   data_dir: "../../togitlab/dataset/128x128"
   train: "data/experiment_001/train_00_cv_00.csv"
   dev: "data/experiment_001/dev_00_cv_00.csv"
   test: "data/experiment_001/test_00.csv"
   normalization: "macenko"
+  cache_data: True
