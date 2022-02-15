@@ -6,13 +6,13 @@ model_opts:
     net_depth: 3
     
 train_par:
-  epochs: 10
-  batch_size: 32
+  epochs: 2
+  batch_size: 8
   workers: 4
   lr: 0.001
 
 dataset:
-  data_dir: "../../togitlab/dataset/128x128"
+  data_dir: "../dataset/128x128"
   train: "data/experiment_001/train_00_cv_00.csv"
   dev: "data/experiment_001/dev_00_cv_00.csv"
   test: "data/experiment_001/test_00.csv"

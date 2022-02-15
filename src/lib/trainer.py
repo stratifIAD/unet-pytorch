@@ -31,6 +31,7 @@ class Trainer:
     def train_epoch(self, train_loader):
         self.model.train
         total_loss = 0
+        torch.cuda.empty_cache()
         for img, mask in tqdm(train_loader):
             self.op.zero_grad()
             img, mask = img.to(self.device, dtype=torch.float), mask.to(self.device)
@@ -53,6 +54,7 @@ class Trainer:
 
     def train(self, epochs):
         for epoch in range(epochs):
+            #torch.cuda.empty_cache()
             train_loss = self.train_epoch(self.loaders['train'])
             test_loss = self.test(self.loaders['val'])
             print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, test loss = {test_loss}')
