@@ -12,7 +12,7 @@ train_par:
   lr: 0.001
 
 dataset:
-  data_dir: "../dataset/128x128"
+  data_dir: "../../togitlab/dataset/128x128"
   train: "data/experiment_001/train_00_cv_00.csv"
   dev: "data/experiment_001/dev_00_cv_00.csv"
   test: "data/experiment_001/test_00.csv"
