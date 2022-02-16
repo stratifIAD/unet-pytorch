@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 
 def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask):
     """ dice_coeff_batch : function that returns the mean dice coeff for a batch of pairs 
