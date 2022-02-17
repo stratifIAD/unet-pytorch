@@ -35,17 +35,22 @@ def metrics(p_n, tp, fp, tn, fn):
     tp : true positives, fp: false positives, tn: true negatives, fn: false negatives
     For details please check : https://en.wikipedia.org/wiki/Precision_and_recall
     """
-    # Computing the accuracy
-    accuracy  = (tp + tn) / p_n
+    try:
+        # Computing the accuracy
+        accuracy  = (tp + tn) / p_n
 
-    # Computing the precision
-    precision =  tp / (tp + fp)
+        # Computing the precision
+        precision =  tp / (tp + fp)
 
-    # Computing the recall
-    recall    =  tp / (tp + fn)
+        # Computing the recall
+        recall    =  tp / (tp + fn)
 
-    # Computing the f1
-    f1        =  2 * tp / (2 * tp + fp + fn)
+        # Computing the f1
+        f1        =  2 * tp / (2 * tp + fp + fn)
+    
+    except ZeroDivisionError:
+        precision, recall, accuracy, f1 = 0, 0, 0, 0 
+    
     return precision, recall, accuracy, f1
 
 def confusion_matrix(prediction, truth):

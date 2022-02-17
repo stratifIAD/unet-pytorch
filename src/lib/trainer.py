@@ -6,6 +6,7 @@ import wandb
 
 from .models.unet import Unet
 from .models.conv_net import ConvNet
+from . import utils
 
 class Trainer:
     def __init__(self, model_opts, train_par, loaders):
@@ -13,6 +14,7 @@ class Trainer:
         self.set_model(model_opts)
         self.loaders = loaders
         self.op = torch.optim.Adam(self.model.parameters(), lr=train_par.lr)
+        self.eval_threshold = train_par.eval_threshold
 
     def set_model(self, model_opts):
         model_def = globals()[model_opts.name]
@@ -31,34 +33,41 @@ class Trainer:
     def train_epoch(self, train_loader):
         self.model.train
         total_loss = 0
-        torch.cuda.empty_cache()
         for img, mask in tqdm(train_loader):
-            self.op.zero_grad()
-            img, mask = img.to(self.device, dtype=torch.float), mask.to(self.device)
+            img, mask = img.to(self.device, dtype=torch.float), mask.to(self.device, dtype=torch.float)
             pred = self.model(img)
             loss = self.get_loss(pred, mask)
             total_loss += loss
             loss.backward()
             self.op.step()
+            self.op.zero_grad()
+
         return total_loss / len(train_loader)
     
     def test(self, test_loader):
         self.model.eval()  
         total_loss = 0
+        dice_score = 0
         for img, mask in tqdm(test_loader):
-            img, mask = img.to(self.device, dtype=torch.float), mask.to(self.device)
-            pred = self.model(img)
-            loss = self.loss_f(pred, mask)
-            total_loss += loss
-        return total_loss / len(test_loader)
+            img, mask = img.to(self.device, dtype=torch.float), mask.to(self.device, dtype=torch.float)
+            with torch.no_grad():
+                pred_mask = self.model(img)
+                loss = self.loss_f(pred_mask, mask)
+                total_loss += loss
+                self.op.zero_grad()
+
+                pred = torch.sigmoid(pred_mask)
+                pred = (pred > self.eval_threshold).float()
+                dice_score += utils.dice_coeff_batch(pred, mask).item()
+
+        return total_loss / len(test_loader), dice_score / len(test_loader) 
 
     def train(self, epochs):
         for epoch in range(epochs):
-            #torch.cuda.empty_cache()
             train_loss = self.train_epoch(self.loaders['train'])
-            test_loss = self.test(self.loaders['val'])
-            print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, test loss = {test_loss}')
-            wandb.log({"loss/train": train_loss, "loss/dev": test_loss}, step=epoch)
+            test_loss, test_dice = self.test(self.loaders['val'])
+            print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, test loss = {test_loss}, test dice = {test_dice}')
+            wandb.log({"loss/train": train_loss, "loss/dev": test_loss, "dice/dev": test_dice}, step=epoch)
 
     def predict(self):
         pass

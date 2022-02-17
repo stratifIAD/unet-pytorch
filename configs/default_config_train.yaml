@@ -10,9 +10,10 @@ train_par:
   batch_size: 8
   workers: 4
   lr: 0.001
+  eval_threshold: 0.5
 
 dataset:
-  data_dir: "../../togitlab/dataset/128x128"
+  data_dir: "../dataset/128x128"
   train: "data/experiment_001/train_00_cv_00.csv"
   dev: "data/experiment_001/dev_00_cv_00.csv"
   test: "data/experiment_001/test_00.csv"
