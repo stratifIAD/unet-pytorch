@@ -51,6 +51,9 @@ class Trainer:
         self.model.eval()  
         total_loss = 0
         dice_score = 0
+        total_tp , total_fp, total_tn, total_fn = 0, 0, 0, 0
+        total_precision, total_recall, total_accuracy, total_f1 = 0, 0, 0, 0
+
         for img, mask in tqdm(test_loader):
             img, mask = img.to(self.device, dtype=torch.float), mask.to(self.device, dtype=torch.float)
             with torch.no_grad():
@@ -63,15 +66,31 @@ class Trainer:
                 pred = (pred > self.eval_threshold).float()
                 dice_score += utils.dice_coeff_batch(pred, mask).item()
 
-        return total_loss / len(test_loader), dice_score / len(test_loader) 
+                tp, fp, tn, fn, precision, recall, accuracy, f1 = utils.confusion_matrix(pred, mask)
+                total_tp += tp
+                total_fp += fp
+                total_tn += tn
+                total_fn += fn
+
+                total_precision += precision
+                total_recall += recall
+                total_accuracy += accuracy
+                total_f1 += f1
+
+        return total_loss/len(test_loader), dice_score/len(test_loader), total_tp/len(test_loader), \
+                total_fp/len(test_loader), total_tn/len(test_loader), total_fn/len(test_loader), total_precision/len(test_loader), \
+                total_recall/len(test_loader), total_accuracy/len(test_loader), total_f1/len(test_loader)
 
     def train(self, epochs):
         early_stopping = utils.EarlyStopping(patience=self.patience, verbose=True, path=self.results_model_filename)
         for epoch in range(epochs):
             train_loss = self.train_epoch(self.loaders['train'])
-            test_loss, test_dice = self.test(self.loaders['val'])
-            print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, test loss = {test_loss}, test dice = {test_dice}')
-            wandb.log({"loss/train": train_loss, "loss/dev": test_loss, "dice/dev": test_dice}, step=epoch)
+            test_loss, test_dice, test_tp, test_fp, test_tn, test_fn, test_precision, test_recall, test_accuracy, test_f1 = self.test(self.loaders['val'])
+            print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, test loss = {test_loss}, test dice = {test_dice}, \
+                    test precision = {test_precision}, test recall = {test_recall}, test accuracy = {test_accuracy}, test f1 = {test_f1}')
+            wandb.log({"loss/train": train_loss, "loss/val": test_loss, "val_metrics/dice": test_dice, "val_metrics/f1": test_f1, \
+                        "val_metrics/precision": test_precision, "val_metrics/recall": test_recall, "val_metrics/accuracy": test_accuracy, \
+                        "val_metrics/tp": test_tp, "val_metrics/fp": test_fp, "val_metrics/tn": test_tn, "val_metrics/fn": test_fn}, step=epoch)
 
             # Adding early stopping according to the evolution of the validation loss
             if self.early_stopping_flag:
