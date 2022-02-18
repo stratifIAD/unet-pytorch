@@ -63,7 +63,7 @@ class Trainer:
                 self.op.zero_grad()
 
                 pred = torch.sigmoid(pred_mask)
-                pred = (pred > self.edev_threshold).float()
+                pred = (pred > self.eval_threshold).float()
                 dice_score += utils.dice_coeff_batch(pred, mask).item()
 
                 tp, fp, tn, fn, precision, recall, accuracy, f1 = utils.confusion_matrix(pred, mask)
