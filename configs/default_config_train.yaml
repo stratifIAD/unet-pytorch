@@ -6,13 +6,17 @@ model_opts:
     net_depth: 3
     
 train_par:
-  epochs: 2
+  epochs: 10
   batch_size: 16
   workers: 4
   lr: 0.001
   eval_threshold: 0.5
+  patience: 10
+  early_stopping_flag: True
+  results_path: "results"
 
 dataset:
+  experiment: "exp_001"
   data_dir: "../dataset/128x128"
   train: "data/experiment_001/train_00_cv_00.csv"
   dev: "data/experiment_001/dev_00_cv_00.csv"
