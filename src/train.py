@@ -58,5 +58,9 @@ if __name__ == "__main__":
 
     loaders = {'train': train_dataloader, 'val': dev_dataloader}
 
+    results_path = os.path.join(conf.train_par.results_path, conf.dataset.experiment)
+    os.makedirs(results_path, exist_ok=True)
+    conf.train_par.results_model_filename = os.path.join(results_path, f'{wandb.run.name}.pt')
+
     trainer = Trainer(model_opts=conf.model_opts, train_par=conf.train_par, loaders=loaders)
     trainer.train(conf.train_par.epochs)

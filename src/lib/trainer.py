@@ -15,6 +15,9 @@ class Trainer:
         self.loaders = loaders
         self.op = torch.optim.Adam(self.model.parameters(), lr=train_par.lr)
         self.eval_threshold = train_par.eval_threshold
+        self.patience = train_par.patience
+        self.early_stopping_flag = train_par.early_stopping_flag
+        self.results_model_filename = train_par.results_model_filename
 
     def set_model(self, model_opts):
         model_def = globals()[model_opts.name]
@@ -63,11 +66,21 @@ class Trainer:
         return total_loss / len(test_loader), dice_score / len(test_loader) 
 
     def train(self, epochs):
+        early_stopping = utils.EarlyStopping(patience=self.patience, verbose=True, path=self.results_model_filename)
         for epoch in range(epochs):
             train_loss = self.train_epoch(self.loaders['train'])
             test_loss, test_dice = self.test(self.loaders['val'])
             print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, test loss = {test_loss}, test dice = {test_dice}')
             wandb.log({"loss/train": train_loss, "loss/dev": test_loss, "dice/dev": test_dice}, step=epoch)
+
+            # Adding early stopping according to the evolution of the validation loss
+            if self.early_stopping_flag:
+                early_stopping(test_loss, self.model)
+                if early_stopping.early_stop:
+                    print(f'Early stopping')
+                    break
+
+        self.model.load_state_dict(torch.load(self.results_model_filename))
 
     def predict(self):
         pass
