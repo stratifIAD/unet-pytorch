@@ -86,8 +86,7 @@ class Trainer:
         for epoch in range(epochs):
             train_loss = self.train_epoch(self.loaders['train'])
             dev_loss, dev_dice, dev_tp, dev_fp, dev_tn, dev_fn, dev_precision, dev_recall, dev_accuracy, dev_f1 = self.validation(self.loaders['dev'])
-            print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, dev loss = {dev_loss}, dev dice = {dev_dice}, \
-                    dev precision = {dev_precision}, dev recall = {dev_recall}, dev accuracy = {dev_accuracy}, dev f1 = {dev_f1}')
+            print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, dev loss = {dev_loss}, dev dice = {dev_dice}, dev precision = {dev_precision}, dev recall = {dev_recall}, dev accuracy = {dev_accuracy}, dev f1 = {dev_f1}')
             wandb.log({"loss/train": train_loss, "loss/dev": dev_loss, "dev_metrics/dice": dev_dice, "dev_metrics/f1": dev_f1, \
                         "dev_metrics/precision": dev_precision, "dev_metrics/recall": dev_recall, "dev_metrics/accuracy": dev_accuracy, \
                         "dev_metrics/tp": dev_tp, "dev_metrics/fp": dev_fp, "dev_metrics/tn": dev_tn, "dev_metrics/fn": dev_fn}, step=epoch)
