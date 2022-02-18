@@ -23,3 +23,4 @@ dataset:
   test: "data/experiment_001/test_00.csv"
   normalization: "macenko"
   cache_data: True
+  rescale_factor: 128

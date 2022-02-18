@@ -34,6 +34,7 @@ if __name__ == "__main__":
     dev_file = conf.dataset.dev
     normalization = conf.dataset.normalization
     cache_data = conf.dataset.cache_data
+    rescale_factor = conf.dataset.rescale_factor
 
     wandb.run.name = dev_file.replace('dev','train_dev').split('.')[0].split('/')[-1]
     print(f'RUN: {wandb.run.name}')
@@ -43,13 +44,13 @@ if __name__ == "__main__":
                                 normalization=normalization,
                                 cache_data=cache_data,
                                 transform=transforms.Compose([
-                                Rescale(128), ToTensor()]))
+                                Rescale(rescale_factor), ToTensor()]))
     dev_dataset = stratifiadDataset(meta_data=dev_file,
                                 root_dir=data_dir,
                                 normalization=normalization,
                                 cache_data=cache_data,
                                 transform=transforms.Compose([
-                                Rescale(128), ToTensor()]))
+                                Rescale(rescale_factor), ToTensor()]))
 
     train_dataloader = DataLoader(train_dataset, batch_size=conf.train_par.batch_size,
                             shuffle=True, num_workers=conf.train_par.workers, pin_memory=True)
