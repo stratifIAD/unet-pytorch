@@ -34,7 +34,9 @@ if __name__ == "__main__":
     dev_file = conf.dataset.dev
     normalization = conf.dataset.normalization
     cache_data = conf.dataset.cache_data
-    print(data_dir, train_file, dev_file, normalization)
+
+    wandb.run.name = dev_file.replace('dev','train_dev').split('.')[0].split('/')[-1]
+    print(f'RUN: {wandb.run.name}')
 
     train_dataset = stratifiadDataset(meta_data=train_file,
                                 root_dir=data_dir, 
