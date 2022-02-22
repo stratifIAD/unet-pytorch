@@ -6,14 +6,22 @@ model_opts:
     net_depth: 3
     
 train_par:
-  epochs: 10
-  batch_size: 16
+  epochs: 50
+  batch_size: 8
   workers: 4
   lr: 0.001
   eval_threshold: 0.5
-  patience: 10
+  patience: 15
   early_stopping_flag: True
-  results_path: "results"
+  results_path: "results/128x128"
+  optimizer:
+    name: 'SGD'
+  loss_opts:
+    name: 'BCELogitsLoss'
+    args:
+      weight: False # this is for BCELogits & BCEDiceLoss
+      alpha: 0.25 # this is only for focal loss
+      gamma: 2 # this is only for focal loss
 
 dataset:
   experiment: "exp_001"
