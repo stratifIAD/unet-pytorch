@@ -6,7 +6,6 @@ import glob
 from torch.utils.data import Dataset
 from PIL import Image
 
-
 class stratifiadDataset(Dataset):
     """ StratifIAD Dataset for plaques and tangle segmentation/classification """
 
