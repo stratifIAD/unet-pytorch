@@ -28,7 +28,9 @@ def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask):
         dice_score +=  single_dice_coeff(inputs[0], inputs[1])
     
     # Return the mean Dice coefficient over the given batch
-    return dice_score / (pair_idx + 1)
+    dice_batch = dice_score / (pair_idx + 1)
+
+    return dice_batch, 1 - dice_batch
 
 def metrics(p_n, tp, fp, tn, fn):
     """ Returns accuracy, precision, recall, f1 based on the inputs 
@@ -134,3 +136,11 @@ class EarlyStopping:
             self.trace_func(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
         torch.save(model.state_dict(), self.path)
         self.val_loss_min = val_loss
+
+
+def pos_weight_batch(mask):
+    size = mask.size()
+    pos = torch.sum(mask)
+    total_px = (size[-1]**2) * size[0]
+    # print(size, total_px, pos)
+    return (total_px - pos) / pos # neg / pos

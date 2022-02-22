@@ -1,5 +1,4 @@
 import argparse
-from linecache import cache
 import yaml
 from addict import Dict
 import wandb
@@ -24,7 +23,7 @@ if __name__ == "__main__":
 
     conf = Dict(yaml.safe_load(open(args.config_file, "r")))
     
-    wandb.init(project="stratifIAD", entity="gabrieljg")
+    wandb.init(project="MICCAI", entity="gabrieljg")
     wandb.config.update(conf)
 
     torch.backends.cudnn.benchmark = True
@@ -37,7 +36,8 @@ if __name__ == "__main__":
     cache_data = conf.dataset.cache_data
     rescale_factor = conf.dataset.rescale_factor
 
-    wandb.run.name = dev_file.replace('dev','train_dev').split('.')[0].split('/')[-1]
+    name = dev_file.replace('dev','test').split('.')[0].split('/')[-1]
+    wandb.run.name = f'{conf.dataset.experiment}_{name}_patchSize_{rescale_factor}'
     print(f'RUN: {wandb.run.name}')
 
     train_dataset = stratifiadDataset(meta_data=train_file,

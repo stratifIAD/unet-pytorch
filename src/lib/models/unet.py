@@ -74,10 +74,12 @@ class Unet(nn.Module):
         x = x.squeeze(dim=1)
 
         return x
+        
 def test_model():
     x = torch.randn((4,3,128,128))
-    model = Unet(inchannels=3, outchannels=3, net_depth=3)
-    preds = model(x)
+    model = Unet(inchannels=3, outchannels=1, net_depth=3)
+    m = torch.nn.LogSoftmax(dim=0)
+    preds = m(model(x))
     print(f'input shape: {x.shape}')
     print(f'output shape: {preds.shape}')
 
