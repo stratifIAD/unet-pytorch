@@ -15,16 +15,16 @@ train_par:
   early_stopping_flag: True
   results_path: "results/128x128"
   optimizer:
-    name: 'SGD'
+    name: 'Adam'
   loss_opts:
-    name: 'BCELogitsLoss'
+    name: 'FocalLoss'
     args:
-      weight: False # this is for BCELogits & BCEDiceLoss
-      alpha: 0.25 # this is only for focal loss
+      weight: 'none' # this is for BCELogits (value will be computed automatically) & BCEDiceLoss (you need to input a value, default: 0.1)
+      alpha: 4 # this is only for focal loss
       gamma: 2 # this is only for focal loss
 
 dataset:
-  experiment: "exp_001"
+  experiment: "exp_012"
   data_dir: "../dataset/128x128"
   train: "data/experiment_001/train_00_cv_00.csv"
   dev: "data/experiment_001/dev_00_cv_00.csv"

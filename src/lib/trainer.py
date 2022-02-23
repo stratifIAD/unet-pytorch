@@ -14,10 +14,10 @@ class Trainer:
         self.set_model(model_opts)
         self.loaders = loaders
         
-        #self.op = torch.optim.Adam(self.model.parameters(), lr=train_par.lr)
+        self.op = torch.optim.Adam(self.model.parameters(), lr=train_par.lr)
         #self.op = torch.optim.RMSprop(self.model.parameters(), lr=train_par.lr, alpha=0.99, eps=1e-08, weight_decay=0.2, momentum=0.9, centered=False)
         #self.op = torch.optim.Adadelta(self.model.parameters(), lr=train_par.lr, rho=0.9, eps=1e-06, weight_decay=0)
-        self.op = torch.optim.SGD(self.model.parameters(), lr=train_par.lr, momentum=0.9)
+        #self.op = torch.optim.SGD(self.model.parameters(), lr=train_par.lr, momentum=0.9)
 
         self.eval_threshold = train_par.eval_threshold
         self.patience = train_par.patience
@@ -33,26 +33,26 @@ class Trainer:
         self.model.to(self.device)
 
     def get_loss(self, y_hat, y):
-        if self.train_par.loss_opts.name is not None:
+        if self.train_par.loss_opts.name != 'none':
             self.loss_f = globals()[self.train_par.loss_opts.name]
 
         if self.train_par.loss_opts.name == 'BCELogitsLoss':
-            if self.train_par.loss_opts.args.weight:
-                return self.loss_f(y_hat, y, weight = self.pos_weight)
-            else:
+            if self.train_par.loss_opts.args.weight == 'none':
                 return self.loss_f(y_hat, y)
+            else:
+                return self.loss_f(y_hat, y, weight = self.pos_weights)
 
         if self.train_par.loss_opts.name == 'FocalLoss':
-                return self.loss_f(y_hat, y)
+            return self.loss_f(y_hat, y)
         
         if self.train_par.loss_opts.name == 'BCEDiceLoss':
-            if self.train_par.loss_opts.args.weight:
-                return self.loss_f(y_hat, y, weight = self.pos_weight)
-            else:
+            if self.train_par.loss_opts.args.weight == 'none':
                 return self.loss_f(y_hat, y)
+            else:
+                return self.loss_f(y_hat, y, weight = self.train_par.loss_opts.args.weight)
         
         if self.train_par.loss_opts.name == 'DiceLoss':
-                return self.loss_f(y_hat, y)        
+            return self.loss_f(y_hat, y)        
 
     def train_epoch(self, train_loader):
         self.model.train
@@ -62,7 +62,7 @@ class Trainer:
             img, mask = img.to(self.device, dtype=torch.float), mask.to(self.device, dtype=torch.float)
             pred = self.model(img)
             loss = self.get_loss(pred, mask)
-            total_loss += loss
+            total_loss += loss.item()
             loss.backward()
             self.op.step()
             self.op.zero_grad()
@@ -110,7 +110,6 @@ class Trainer:
         for epoch in range(epochs):
             train_loss = self.train_epoch(self.loaders['train'])
             dev_loss, dev_dice, dev_tp, dev_fp, dev_tn, dev_fn, dev_precision, dev_recall, dev_accuracy, dev_f1 = self.validation(self.loaders['dev'])
-            print(self.pos_weights)
             print(f'Epoch {epoch}/{epochs}: training loss = {train_loss}, dev loss = {dev_loss}, dev dice = {dev_dice}, dev precision = {dev_precision}, dev recall = {dev_recall}, dev accuracy = {dev_accuracy}, dev f1 = {dev_f1}')
             wandb.log({"loss/train": train_loss, "loss/dev": dev_loss, "dev_metrics/dice": dev_dice, "dev_metrics/f1": dev_f1, \
                         "dev_metrics/precision": dev_precision, "dev_metrics/recall": dev_recall, "dev_metrics/accuracy": dev_accuracy, \

@@ -21,7 +21,7 @@ def DiceLoss(y_hat, y):
     _, dice_loss = utils.dice_coeff_batch(y_hat, y)
     return dice_loss
 
-def FocalLoss(y_hat, y, alpha=0.25, gamma=2, logits=True, reduce=True):
+def FocalLoss(y_hat, y, alpha=4, gamma=2, logits=True, reduce=True):
     if logits:
         BCE_loss = F.binary_cross_entropy_with_logits(y_hat, y, reduction='none')
     else:
