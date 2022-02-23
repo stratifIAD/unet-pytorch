@@ -78,6 +78,7 @@ class Unet(nn.Module):
 def test_model():
     x = torch.randn((4,3,128,128))
     model = Unet(inchannels=3, outchannels=1, net_depth=3)
+    print(model)
     m = torch.nn.LogSoftmax(dim=0)
     preds = m(model(x))
     print(f'input shape: {x.shape}')
