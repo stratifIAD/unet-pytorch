@@ -6,6 +6,7 @@ model_opts:
     net_depth: 3
     
 train_par:
+  random_seed: 'default'
   epochs: 50
   batch_size: 8
   workers: 4
@@ -17,18 +18,18 @@ train_par:
   optimizer:
     name: 'Adam'
   loss_opts:
-    name: 'FocalLoss'
+    name: 'DiceLoss'
     args:
       weight: 'none' # this is for BCELogits (value will be computed automatically) & BCEDiceLoss (you need to input a value, default: 0.1)
       alpha: 4 # this is only for focal loss
       gamma: 2 # this is only for focal loss
 
 dataset:
-  experiment: "exp_012"
-  data_dir: "../dataset/128x128"
-  train: "data/experiment_001/train_00_cv_00.csv"
-  dev: "data/experiment_001/dev_00_cv_00.csv"
-  test: "data/experiment_001/test_00.csv"
+  experiment: "exp_001"
+  data_dir: "../dataset/experiment_002/128x128"
+  train: "data/experiment_002/train_00_cv_00.csv"
+  dev: "data/experiment_002/dev_00_cv_00.csv"
+  test: "data/experiment_002/test_00.csv"
   normalization: "macenko"
   cache_data: True
   rescale_factor: 128
