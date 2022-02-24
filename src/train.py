@@ -13,6 +13,9 @@ from lib.trainer import Trainer
 from lib.dataset import stratifiadDataset
 from lib.transforms import ToTensor, Rescale
 
+import random
+import numpy as np
+
 if __name__ == "__main__":
 
     '''Creating data parser for train.py'''
@@ -23,7 +26,7 @@ if __name__ == "__main__":
 
     conf = Dict(yaml.safe_load(open(args.config_file, "r")))
     
-    wandb.init(project="MICCAI", entity="gabrieljg")
+    wandb.init(project="MICCAI-bestWSI", entity="gabrieljg")
     wandb.config.update(conf)
 
     torch.backends.cudnn.benchmark = True
@@ -39,6 +42,16 @@ if __name__ == "__main__":
     name = dev_file.replace('dev','test').split('.')[0].split('/')[-1]
     wandb.run.name = f'{conf.dataset.experiment}_{name}_patchSize_{rescale_factor}'
     print(f'RUN: {wandb.run.name}')
+    
+    # Setting a random seed for reproducibility
+    if conf.train_par.random_seed == 'default':
+        random_seed = 2022
+    else:
+        random_seed = conf.train_par.random_seed
+        
+    torch.manual_seed(random_seed)
+    random.seed(random_seed)
+    np.random.seed(random_seed)
 
     train_dataset = stratifiadDataset(meta_data=train_file,
                                 root_dir=data_dir, 
