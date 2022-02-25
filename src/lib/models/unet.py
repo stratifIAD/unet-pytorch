@@ -19,10 +19,12 @@ class ConvBlock(nn.Module):
     #     x = self.batchnorm(x)
     #     return x
     def forward(self, x):
-        x = F.leaky_relu(self.conv1(x))
+        x = self.conv1(x)
         x = self.batchnorm(x)
-        x = F.leaky_relu(self.conv2(x))
+        x = F.leaky_relu(x)
+        x = self.conv2(x)
         x = self.batchnorm(x)
+        x = F.leaky_relu(x)
         # Adding dropout
         x = F.dropout(x, p=0.5)
         return x
@@ -43,7 +45,7 @@ class UpBlock(nn.Module):
     #     return x
     def forward(self, x, locality_info):
         x = self.upconv(x)
-        x = self.batchnorm(x)
+        #x = self.batchnorm(x)
         x = torch.cat([locality_info, x], 1) # adding in dim = 1 which is channels.
         x = self.conv(x)
         x = self.batchnorm(x)
