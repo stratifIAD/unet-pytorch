@@ -10,14 +10,20 @@ from . import utils
 
 class Trainer:
     def __init__(self, model_opts, train_par, loaders):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        if train_par.gpu_to_use == 'default':
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        else:
+            self.device = torch.device(train_par.gpu_to_use if torch.cuda.is_available() else "cpu")
+
         self.set_model(model_opts)
         self.loaders = loaders
         
-        self.op = torch.optim.Adam(self.model.parameters(), lr=train_par.lr)
+        #self.op = torch.optim.Adam(self.model.parameters(), lr=train_par.lr)
         #self.op = torch.optim.RMSprop(self.model.parameters(), lr=train_par.lr, alpha=0.99, eps=1e-08, weight_decay=0.2, momentum=0.9, centered=False)
-        #self.op = torch.optim.Adadelta(self.model.parameters(), lr=train_par.lr, rho=0.9, eps=1e-06, weight_decay=0)
+        self.op = torch.optim.Adadelta(self.model.parameters(), lr=train_par.lr, rho=0.8, eps=1e-06, weight_decay=0)
         #self.op = torch.optim.SGD(self.model.parameters(), lr=train_par.lr, momentum=0.9)
+
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.op, 'min', patience=5)
 
         self.eval_threshold = train_par.eval_threshold
         self.patience = train_par.patience
@@ -33,11 +39,11 @@ class Trainer:
         self.model.to(self.device)
 
     def get_loss(self, y_hat, y):
-        if self.train_par.loss_opts.name != 'none':
+        if self.train_par.loss_opts.name != 'default':
             self.loss_f = globals()[self.train_par.loss_opts.name]
 
         if self.train_par.loss_opts.name == 'BCELogitsLoss':
-            if self.train_par.loss_opts.args.weight == 'none':
+            if self.train_par.loss_opts.args.weight == 'default':
                 return self.loss_f(y_hat, y)
             else:
                 return self.loss_f(y_hat, y, weight = self.pos_weights)
@@ -46,7 +52,7 @@ class Trainer:
             return self.loss_f(y_hat, y)
         
         if self.train_par.loss_opts.name == 'BCEDiceLoss':
-            if self.train_par.loss_opts.args.weight == 'none':
+            if self.train_par.loss_opts.args.weight == 'default':
                 return self.loss_f(y_hat, y)
             else:
                 return self.loss_f(y_hat, y, weight = self.train_par.loss_opts.args.weight)
@@ -115,6 +121,7 @@ class Trainer:
                         "dev_metrics/precision": dev_precision, "dev_metrics/recall": dev_recall, "dev_metrics/accuracy": dev_accuracy, \
                         "dev_metrics/tp": dev_tp, "dev_metrics/fp": dev_fp, "dev_metrics/tn": dev_tn, "dev_metrics/fn": dev_fn}, step=epoch)
 
+            self.scheduler.step(dev_loss)
             # Adding early stopping according to the evolution of the validation loss
             if self.early_stopping_flag:
                 early_stopping(dev_loss, self.model)
