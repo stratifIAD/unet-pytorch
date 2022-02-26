@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     conf = Dict(yaml.safe_load(open(args.config_file, "r")))
     
-    wandb.init(project="MICCAI-bestWSI", entity="gabrieljg")
+    wandb.init(project="MICCAI-xval-xtest", entity="gabrieljg")
     wandb.config.update(conf)
 
     torch.backends.cudnn.benchmark = True

@@ -125,11 +125,12 @@ class Trainer:
             # Adding early stopping according to the evolution of the validation loss
             if self.early_stopping_flag:
                 early_stopping(dev_loss, self.model)
+                if early_stopping.counter == 0: wandb.log({"dev_metrics/best_score":early_stopping.best_score}, step=epoch)
                 if early_stopping.early_stop:
                     print(f'Early stopping')
                     break
 
-        self.model.load_state_dict(torch.load(self.results_model_filename))
+            self.model.load_state_dict(torch.load(self.results_model_filename))
 
     def predict(self):
         test_loader = self.loaders['test']

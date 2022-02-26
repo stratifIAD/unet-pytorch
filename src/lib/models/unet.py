@@ -27,7 +27,7 @@ class ConvBlock(nn.Module):
         x = F.leaky_relu(x)
         # Adding dropout
         x = F.dropout(x, p=0.5)
-        return x
+        return x        # Adding dropout
 
 class UpBlock(nn.Module):
     def __init__(self, inchannels, outchannels):

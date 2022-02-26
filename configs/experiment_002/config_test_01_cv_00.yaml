@@ -3,7 +3,7 @@ model_opts:
   args:
     inchannels: 3
     outchannels: 1
-    net_depth: 4
+    net_depth: 3
     
 train_par:
   gpu_to_use: 'cuda:0' # 'cuda:1', select the GPU where you want your training. if 'default' it will use torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -26,11 +26,11 @@ train_par:
       gamma: 2 # this is only for focal loss
 
 dataset:
-  experiment: "exp_DiceLoss_Dropout_15"
+  experiment: "exp_MICCAI"
   data_dir: "../dataset/128x128"
-  train: "data/experiment_002/train_00_cv_00.csv"
-  dev: "data/experiment_002/dev_00_cv_00.csv"
-  test: "data/experiment_002/test_00.csv"
+  train: "data/experiment_002/train_01_cv_00.csv"
+  dev: "data/experiment_002/dev_01_cv_00.csv"
+  test: "data/experiment_002/test_01.csv"
   normalization: "macenko"
   cache_data: True
   rescale_factor: 128
