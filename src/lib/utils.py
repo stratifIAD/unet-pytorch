@@ -1,6 +1,5 @@
 import torch
 import numpy as np
-from zmq import device
 
 def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask, device = 'cuda'):
     """ dice_coeff_batch : function that returns the mean dice coeff for a batch of pairs 
