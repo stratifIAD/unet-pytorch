@@ -7,11 +7,11 @@ from . import utils
 def BCELogitsLoss(y_hat, y, weight = None):
     return F.binary_cross_entropy_with_logits(y_hat, y, pos_weight=weight)
 
-def BCEDiceLoss(y_hat, y, weight = 0.1):
+def BCEDiceLoss(y_hat, y, weight = 0.1, device = 'cuda'):
     bce_loss = F.binary_cross_entropy_with_logits(y_hat, y)
     y_hat = torch.sigmoid(y_hat) 
     
-    _, dice_loss = utils.dice_coeff_batch(y_hat, y)
+    _, dice_loss = utils.dice_coeff_batch(y_hat, y, device)
     loss = bce_loss * weight + dice_loss * (1 - weight)
 
     return loss

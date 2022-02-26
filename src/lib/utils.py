@@ -1,7 +1,8 @@
 import torch
 import numpy as np
+from zmq import device
 
-def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask):
+def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask, device = 'cuda'):
     """ dice_coeff_batch : function that returns the mean dice coeff for a batch of pairs 
     mask, ground truth mask """
     
@@ -20,7 +21,7 @@ def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask):
         return (2 * inter_mask.float() + eps) / union_mask.float()
 
     # Init dice score for batch (GPU ready)
-    if batch_bn_mask.is_cuda: dice_score = torch.FloatTensor(1).cuda().zero_()
+    if batch_bn_mask.is_cuda: dice_score = torch.FloatTensor(1).cuda(device=device).zero_()
     else: dice_score = torch.FloatTensor(1).zero_()
 
     # Compute Dice coefficient for the given batch

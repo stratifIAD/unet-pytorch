@@ -36,6 +36,7 @@ class Trainer:
         self.model = model_def(**model_opts.args)
         # self.multi_cls = True if model_opts.args.outchannels > 1 else False
         wandb.watch(self.model)
+        # self.model.to(self.device)
         self.model.to(self.device)
 
     def get_loss(self, y_hat, y):
@@ -53,9 +54,9 @@ class Trainer:
         
         if self.train_par.loss_opts.name == 'BCEDiceLoss':
             if self.train_par.loss_opts.args.weight == 'default':
-                return self.loss_f(y_hat, y)
+                return self.loss_f(y_hat, y, device=self.device)
             else:
-                return self.loss_f(y_hat, y, weight = self.train_par.loss_opts.args.weight)
+                return self.loss_f(y_hat, y, weight = self.train_par.loss_opts.args.weight, device=self.device)
         
         if self.train_par.loss_opts.name == 'DiceLoss':
             return self.loss_f(y_hat, y)        
@@ -93,7 +94,7 @@ class Trainer:
 
                 pred = torch.sigmoid(pred_mask)
                 pred = (pred > self.eval_threshold).float()
-                dice, _ = utils.dice_coeff_batch(pred, mask)
+                dice, _ = utils.dice_coeff_batch(pred, mask, device=self.device)
                 dice_score += dice.item()
 
                 tp, fp, tn, fn, precision, recall, accuracy, f1 = utils.confusion_matrix(pred, mask)
@@ -150,7 +151,7 @@ class Trainer:
 
                 pred = torch.sigmoid(pred_mask)
                 pred = (pred > self.eval_threshold).float()
-                dice, _ = utils.dice_coeff_batch(pred, mask)
+                dice, _ = utils.dice_coeff_batch(pred, mask, device=self.device)
                 dice_score += dice.item()
 
                 tp, fp, tn, fn, precision, recall, accuracy, f1 = utils.confusion_matrix(pred, mask)
