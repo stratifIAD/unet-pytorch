@@ -47,7 +47,7 @@ annotations = sorted(glob.glob(os.path.join(labels_path,'*.xml')))
 
 # idx = 3
 remove_patches = False # for now it is used for WSI 11
-for idx in [5, 6, 7, 8, 9, 10, 12, 13, 14]:
+for idx in [0, 1, 2, 3, 4, 6, 7, 9]:
     print(idx)
     slide_name = slides[idx]
     label_name = annotations[idx]
