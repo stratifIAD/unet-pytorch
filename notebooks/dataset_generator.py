@@ -250,8 +250,8 @@ for idx in [5, 6, 7, 8, 9, 10, 12, 13, 14]:
     '''
     This code creates the region and its corresponding patches for the 4 corners of data augmentation.
     '''
-    patchSize = [256, 256] # [cols, rows]
-    save_path = os.path.join("/Users/gabriel.jimenez/Documents/project/togitlab/dataset/256x256", slide_name.split('/')[-1].split('.ndpi')[0])
+    patchSize = [512, 512] # [cols, rows]
+    save_path = os.path.join("/Users/gabriel.jimenez/Documents/project/togitlab/dataset/512x512", slide_name.split('/')[-1].split('.ndpi')[0])
     os.makedirs(save_path, exist_ok=True)
 
     os.makedirs(os.path.join(save_path, "patches"), exist_ok=True)
@@ -358,10 +358,10 @@ for idx in [5, 6, 7, 8, 9, 10, 12, 13, 14]:
     This is taking a lot of time --> paralelize it! --> threads
     '''
 
-    target = staintools.read_image("../data/norm_reference_256x256.png")
-    folder_patches = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/256x256/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/patches/'
-    output_folder_macenko = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/256x256/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/macenko/'
-    output_folder_vahadane = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/256x256/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/vahadane/'
+    target = staintools.read_image("../data/norm_reference_512x512.png")
+    folder_patches = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/512x512/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/patches/'
+    output_folder_macenko = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/512x512/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/macenko/'
+    output_folder_vahadane = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/512x512/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/vahadane/'
 
     os.makedirs(output_folder_macenko, exist_ok=True)
     os.makedirs(output_folder_vahadane, exist_ok=True)
@@ -414,9 +414,9 @@ for idx in [5, 6, 7, 8, 9, 10, 12, 13, 14]:
     # In[ ]:
 
 
-    patchSize = 256
+    patchSize = 512
 
-    background_path = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/256x256/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/background_macenko/'
+    background_path = '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/512x512/' + slide_name.split('/')[-1].split('.ndpi')[0] + '/background_macenko/'
     os.makedirs(background_path, exist_ok=True)
 
     background_patch = []
