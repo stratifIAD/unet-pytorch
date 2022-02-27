@@ -15,7 +15,7 @@ train_par:
   eval_threshold: 0.5
   patience: 15
   early_stopping_flag: True
-  results_path: "results/128x128"
+  results_path: "results/256x256"
   optimizer:
     name: 'Adadelta'
   loss_opts:
@@ -26,11 +26,11 @@ train_par:
       gamma: 2 # this is only for focal loss
 
 dataset:
-  experiment: "exp_DiceLoss_Dropout_15"
-  data_dir: "../dataset/128x128"
-  train: "data/experiment_002/train_00_cv_00.csv"
-  dev: "data/experiment_002/dev_00_cv_00.csv"
+  experiment: "exp_MICCAI"
+  data_dir: "../dataset/256x256"
+  train: "data/experiment_002/train_00_cv_01.csv"
+  dev: "data/experiment_002/dev_00_cv_01.csv"
   test: "data/experiment_002/test_00.csv"
   normalization: "macenko"
   cache_data: True
-  rescale_factor: 128
+  rescale_factor: 256

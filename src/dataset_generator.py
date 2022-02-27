@@ -1,7 +1,7 @@
 import argparse
 import yaml
 from addict import Dict
-from lib import utils
+from src.lib import utils
 
 '''
 What we will need to input:

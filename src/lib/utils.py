@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 
-def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask):
+def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask, device = 'cuda'):
     """ dice_coeff_batch : function that returns the mean dice coeff for a batch of pairs 
     mask, ground truth mask """
     
@@ -20,7 +20,7 @@ def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask):
         return (2 * inter_mask.float() + eps) / union_mask.float()
 
     # Init dice score for batch (GPU ready)
-    if batch_bn_mask.is_cuda: dice_score = torch.FloatTensor(1).cuda().zero_()
+    if batch_bn_mask.is_cuda: dice_score = torch.FloatTensor(1).cuda(device=device).zero_()
     else: dice_score = torch.FloatTensor(1).zero_()
 
     # Compute Dice coefficient for the given batch
@@ -28,24 +28,31 @@ def dice_coeff_batch(batch_bn_mask, batch_true_bn_mask):
         dice_score +=  single_dice_coeff(inputs[0], inputs[1])
     
     # Return the mean Dice coefficient over the given batch
-    return dice_score / (pair_idx + 1)
+    dice_batch = dice_score / (pair_idx + 1)
+
+    return dice_batch, 1 - dice_batch
 
 def metrics(p_n, tp, fp, tn, fn):
     """ Returns accuracy, precision, recall, f1 based on the inputs 
     tp : true positives, fp: false positives, tn: true negatives, fn: false negatives
     For details please check : https://en.wikipedia.org/wiki/Precision_and_recall
     """
-    # Computing the accuracy
-    accuracy  = (tp + tn) / p_n
+    try:
+        # Computing the accuracy
+        accuracy  = (tp + tn) / p_n
 
-    # Computing the precision
-    precision =  tp / (tp + fp)
+        # Computing the precision
+        precision =  tp / (tp + fp)
 
-    # Computing the recall
-    recall    =  tp / (tp + fn)
+        # Computing the recall
+        recall    =  tp / (tp + fn)
 
-    # Computing the f1
-    f1        =  2 * tp / (2 * tp + fp + fn)
+        # Computing the f1
+        f1        =  2 * tp / (2 * tp + fp + fn)
+    
+    except ZeroDivisionError:
+        precision, recall, accuracy, f1 = 0, 0, 0, 0 
+    
     return precision, recall, accuracy, f1
 
 def confusion_matrix(prediction, truth):
@@ -129,3 +136,11 @@ class EarlyStopping:
             self.trace_func(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
         torch.save(model.state_dict(), self.path)
         self.val_loss_min = val_loss
+
+
+def pos_weight_batch(mask):
+    size = mask.size()
+    pos = torch.sum(mask)
+    total_px = (size[-1]**2) * size[0]
+    # print(size, total_px, pos)
+    return (total_px - pos) / pos # neg / pos

@@ -1,2 +1,7 @@
 wandb
 __pycache__
+.ipynb_checkpoints
+results
+environment.yaml
+Pipfile
+Pipfile.lock

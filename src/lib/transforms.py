@@ -44,8 +44,8 @@ class ToTensor(object):
         # numpy image: H x W x C
         # torch image: C X H X W
         image = image.transpose((2, 0, 1))
-        # This is not necessary because we are working with water only. When dealing with multiclass, uncomment the following line.
-        #gt = np.expand_dims(gt, 0) # (1, h, w)
+        # This is not necessary because we are working with one class only. When dealing with multiclass, uncomment the following line.
+        # gt = np.expand_dims(gt, 0) # (1, h, w)
         
         return {'image': torch.from_numpy(image),
                 'gt': torch.from_numpy(gt)}
