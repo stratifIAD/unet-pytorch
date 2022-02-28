@@ -15,7 +15,7 @@ train_par:
   eval_threshold: 0.5
   patience: 15
   early_stopping_flag: True
-  results_path: "results/128x128_newscanner_CV"
+  results_path: "results/128x128"
   optimizer:
     name: 'Adadelta'
   loss_opts:
