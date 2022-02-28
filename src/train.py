@@ -65,19 +65,22 @@ if __name__ == "__main__":
                                 cache_data=cache_data,
                                 transform=transforms.Compose([
                                 Rescale(rescale_factor), ToTensor()]))
-    test_dataset = stratifiadDataset(meta_data=test_file,
-                                root_dir=data_dir,
-                                normalization=normalization,
-                                cache_data=cache_data,
-                                transform=transforms.Compose([
-                                Rescale(rescale_factor), ToTensor()]))
+    
+    if test_file != 'none':
+        test_dataset = stratifiadDataset(meta_data=test_file,
+                                    root_dir=data_dir,
+                                    normalization=normalization,
+                                    cache_data=cache_data,
+                                    transform=transforms.Compose([
+                                    Rescale(rescale_factor), ToTensor()]))
+        test_dataloader = DataLoader(test_dataset, batch_size=1,
+                            shuffle=False, num_workers=conf.train_par.workers, pin_memory=True)
 
     train_dataloader = DataLoader(train_dataset, batch_size=conf.train_par.batch_size,
                             shuffle=True, num_workers=conf.train_par.workers, pin_memory=True)
     dev_dataloader = DataLoader(dev_dataset, batch_size=conf.train_par.batch_size,
                             shuffle=True, num_workers=conf.train_par.workers, pin_memory=True)
-    test_dataloader = DataLoader(test_dataset, batch_size=1,
-                            shuffle=False, num_workers=conf.train_par.workers, pin_memory=True)
+
 
 
     loaders = {'train': train_dataloader, 'dev': dev_dataloader, 'test': test_dataloader}
@@ -88,4 +91,6 @@ if __name__ == "__main__":
 
     trainer = Trainer(model_opts=conf.model_opts, train_par=conf.train_par, loaders=loaders)
     trainer.train(conf.train_par.epochs)
-    trainer.predict()
+    
+    if test_file != 'none':
+        trainer.predict()
