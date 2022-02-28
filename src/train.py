@@ -82,8 +82,10 @@ if __name__ == "__main__":
                             shuffle=True, num_workers=conf.train_par.workers, pin_memory=True)
 
 
-
-    loaders = {'train': train_dataloader, 'dev': dev_dataloader, 'test': test_dataloader}
+    if test_file != 'none':
+        loaders = {'train': train_dataloader, 'dev': dev_dataloader, 'test': test_dataloader}
+    else:
+        loaders = {'train': train_dataloader, 'dev': dev_dataloader}
 
     results_path = os.path.join(conf.train_par.results_path, conf.dataset.experiment)
     os.makedirs(results_path, exist_ok=True)
