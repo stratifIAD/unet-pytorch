@@ -28,9 +28,9 @@ train_par:
 dataset:
   experiment: "exp_MICCAI_bestfold_vahadane"
   data_dir: "../dataset/128x128"
-  train: "data/experiment_006/train_01_cv_01.csv"
-  dev: "data/experiment_006/dev_01_cv_01.csv"
-  test: "data/experiment_006/test_01.csv"
+  train: "data/experiment_002/train_01_cv_01.csv"
+  dev: "data/experiment_002/dev_01_cv_01.csv"
+  test: "data/experiment_002/test_01.csv"
   normalization: "vahadane"
   cache_data: True
   rescale_factor: 128
