@@ -77,7 +77,7 @@ sh test_00_128x128_bestfold_vahadane.sh
 ### Full results:
 ### **Experiment 01:**
 
-Table 01. Results for every fold in experiment 01. Best fold is reported in bold font. Cross-validation and cross-testing was applied.
+Table 01. Results for every fold in experiment 01. Best fold is reported in bold font.
 |   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** | **test_dice** | **test_f1** | **test_recall** | **test_precision** |
 |:-----------------:|:------------:|:----------:|:--------------:|:-----------------:|:-------------:|:-----------:|:---------------:|:------------------:|
 |   test_00_cv_00   |    0.7151    |   0.7165   |     0.6674     |       0.8017      |     0.6753    |    0.6707   |      0.668      |        0.784       |
