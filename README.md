@@ -34,7 +34,7 @@ pipenv sync
 pipenv shell
 ```
 
-# Running the experiments: 
+## Running the experiments: 
 ### **Experiment 01:**
 This uses the 8 WSI images in the dataset and the Macenko color normalization method.
 
