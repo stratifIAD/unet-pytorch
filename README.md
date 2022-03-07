@@ -161,9 +161,27 @@ Table 04. Architecture used: Attention UNet. Patch size: 256x256 pixels (best fo
 
 ### **Scanner differences:**
 Table 05. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer 2.0-RS
-
-
+|   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** |
+|:-----------------:|:------------:|:----------:|:--------------:|:-----------------:|
+|   test_00_cv_00   |    0.7361    |   0.7354   |      0.693     |       0.8106      |
+|   test_00_cv_01   |    0.7234    |   0.7284   |     0.7451     |       0.734       |
+| **test_00_cv_02** |  **0.7388**  | **0.7338** |   **0.7155**   |     **0.7744**    |
+|   test_00_cv_03   |    0.7384    |    0.732   |     0.7063     |       0.7818      |
+|      **mean**     |    0.7342    |   0.7324   |     0.7150     |       0.7752      |
+|      **std**      |    0.0063    |   0.0026   |     0.0191     |       0.0274      |
+|      **max**      |    0.7388    |   0.7354   |     0.7451     |       0.8106      |
+|      **min**      |    0.7234    |   0.7284   |      0.693     |       0.734       |
 
 Table 06. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer S60
+|   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** |
+|:-----------------:|:------------:|:----------:|:--------------:|:-----------------:|
+|   test_00_cv_00   |    0.6286    |   0.6429   |     0.6121     |       0.7143      |
+| **test_00_cv_01** |  **0.6757**  | **0.6695** |   **0.6931**   |     **0.6855**    |
+|   test_00_cv_02   |     0.617    |   0.6448   |     0.6668     |       0.6443      |
+|   test_00_cv_03   |    0.6167    |   0.6445   |     0.6653     |       0.6452      |
+|      **mean**     |    0.6345    |   0.6504   |     0.6593     |       0.6723      |
+|      **std**      |    0.0243    |   0.0110   |     0.0294     |       0.0294      |
+|      **max**      |    0.6757    |   0.6695   |     0.6931     |       0.7143      |
+|      **min**      |    0.6167    |   0.6429   |     0.6121     |       0.6443      |
 
 
