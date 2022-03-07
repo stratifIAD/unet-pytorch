@@ -78,6 +78,7 @@ sh test_00_128x128_bestfold_vahadane.sh
 ### **Experiment 01:**
 
 Table 01. Results for every fold in experiment 01. Best fold is reported in bold font. 
+
 Architecture used: UNet. Patch size: 128x128 pixels
 |   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** | **test_dice** | **test_f1** | **test_recall** | **test_precision** |
 |:-----------------:|:------------:|:----------:|:--------------:|:-----------------:|:-------------:|:-----------:|:---------------:|:------------------:|
