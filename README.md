@@ -35,17 +35,37 @@ pipenv shell
 ```
 
 ## Structure of the dataset:
-The acquisition of the WSI and the patch generation process is described in the article. The dataset used for the three experiments below can be found [here](https://drive.google.com/drive/folders/1EJRXdehoZYxytZYxiib2SZC0tznqF0jc?usp=sharing). 
+The acquisition of the WSI and the patch generation process is described in the article. The dataset used for the three experiments below can be found [here](https://drive.google.com/drive/folders/1EJRXdehoZYxytZYxiib2SZC0tznqF0jc?usp=sharing). The structure is as follows:
 
 ```
-.
-├── _config.yml
-├── _data
-│   └── members.yml
-├── _drafts
-│   ├── begin-with-the-crazy-ideas.md
-│   └── on-simplicity-in-technology.md
+dataset
+├── 128x128
+│   └── new_wsi_00
+│   │   └── macenko
+│   │   └── masks
+│   │   └── vahadane
+│   └── new_wsi_01
+│   │   └── macenko
+│   │   └── masks
+│   │   └── vahadane
+│   └── ...
+└── 256x256
+    └── new_wsi_00
+    │   └── macenko
+    │   └── masks
+    │   └── vahadane
+    └── new_wsi_01
+    │   └── macenko
+    │   └── masks
+    │   └── vahadane
+    └── ...
 ```
+
+|  **folder**  | **description** |
+|:------------:|:---------------:|
+|  **macenko** | contains all the patches and its corresponding corner augmentations using Macenko method for color normalization. Files are named in sequential order according to the annotations in the WSI and the augmented ones have an additional `_Cx.png` added to the name, where `x` is one of the four corners. |
+|    **masks** | contains all the masks and its corresponding corner augmentations. Files are named in sequential order according to the annotations in the WSI and the augmented ones have an additional `_Cx.png` added to the name, where `x` is one of the four corners. |
+| **vahadane** | contains all the patches and its corresponding corner augmentations using Vahadane method for color normalization. Files are named in sequential order according to the annotations in the WSI and the augmented ones have an additional `_Cx.png` added to the name, where `x` is one of the four corners. |
 
 ## Running the experiments: 
 ### **Experiment 01:**
