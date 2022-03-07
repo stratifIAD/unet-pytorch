@@ -62,7 +62,7 @@ This experiment evaluates the impact of the scanner in the segmentation of plaqu
 sh test_00_128x128_oldscan.sh
 ```
 
-- To train using the WSI from the scanner Hamamatsu NanoZoomer S60 sc:
+- To train using the WSI from the scanner Hamamatsu NanoZoomer S60:
 ```shell
 sh test_00_128x128_newscan.sh
 ```
@@ -75,7 +75,7 @@ sh test_00_128x128_bestfold_vahadane.sh
 ```
 
 ## Full results:
-### **Experiment 01:**
+### **UNet and attention UNet:**
 
 Table 01. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font).
 |   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** | **test_dice** | **test_f1** | **test_recall** | **test_precision** |
@@ -159,5 +159,11 @@ Table 04. Architecture used: Attention UNet. Patch size: 256x256 pixels (best fo
 |      **min**      |    0.6199    |   0.6199   |     0.5635     |       0.6438      |     0.5638    |    0.5638   |      0.5132     |       0.5326       |
 
 
-### **Experiment 02:**
+### **Scanner differences:**
+Table 05. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer 2.0-RS
+
+
+
+Table 06. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer S60
+
 
