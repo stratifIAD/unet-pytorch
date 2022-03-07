@@ -8,7 +8,7 @@
 sudo apt update
 ```
 
-- In case `pip3` is not install, then run:
+- In case `pip3` is not installed, then run:
 
 ```shell
 sudo apt install python3-pip
