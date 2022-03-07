@@ -193,7 +193,7 @@ Table 04. Architecture used: Attention UNet. Patch size: 256x256 pixels (best fo
 
 
 ### **Scanner differences:**
-Table 05. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer 2.0-RS
+Table 05. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer 2.0-RS.
 |   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** |
 |:-----------------:|:------------:|:----------:|:--------------:|:-----------------:|
 |   test_00_cv_00   |    0.7361    |   0.7354   |      0.693     |       0.8106      |
@@ -205,7 +205,7 @@ Table 05. Architecture used: UNet. Patch size: 128x128 pixels (best fold is repo
 |      **max**      |    0.7388    |   0.7354   |     0.7451     |       0.8106      |
 |      **min**      |    0.7234    |   0.7284   |      0.693     |       0.734       |
 
-Table 06. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer S60
+Table 06. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font). Scanner: Hamamatsu NanoZoomer S60.
 |   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** |
 |:-----------------:|:------------:|:----------:|:--------------:|:-----------------:|
 |   test_00_cv_00   |    0.6286    |   0.6429   |     0.6121     |       0.7143      |
