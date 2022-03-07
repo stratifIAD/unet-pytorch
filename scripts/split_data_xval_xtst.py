@@ -7,7 +7,7 @@ import tqdm
 
 if __name__ == "__main__":
     '''
-    [StratifIAD] Script that divides data into N groups. Each group will form a fold for the 
+    Script that divides data into N groups. Each group will form a fold for the 
     cross-validation (leave-one-fold-out) and cross-testing. To divide the data into N groups, 
     we first shuffle the data. 
     '''
@@ -38,7 +38,6 @@ if __name__ == "__main__":
         trainfile = f'{output_dir}train_{i:02}.csv'
         
         print(f'Saving train/dev dataset #{i}')
-        # df.to_csv(trainfile, index=False)
         kf = KFold(n_splits = args.num_folds - 1, shuffle = False, random_state = None)
         cv = 0
         for train_index, test_index in kf.split(df):
@@ -47,7 +46,6 @@ if __name__ == "__main__":
             trainfile = f'{output_dir}train_{i:02}_cv_{cv:02}.csv'
             devfile = f'{output_dir}dev_{i:02}_cv_{cv:02}.csv'
 
-            # print("TRAIN:", train_index, "TEST:", test_index)
             train, dev = df.iloc[train_index], df.iloc[test_index]
             
             train.to_csv(trainfile, index=False)

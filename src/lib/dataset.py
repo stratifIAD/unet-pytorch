@@ -6,8 +6,8 @@ import glob
 from torch.utils.data import Dataset
 from PIL import Image
 
-class stratifiadDataset(Dataset):
-    """ StratifIAD Dataset for plaques and tangle segmentation/classification """
+class WSIDataset(Dataset):
+    """ Dataset for plaques segmentation/classification """
 
     def __init__(self, meta_data, root_dir, normalization, cache_data=True, transform=None):
         """
@@ -69,22 +69,3 @@ class stratifiadDataset(Dataset):
             sample = self.transform(sample)
 
         return sample['image'], sample['gt']
-    
-    '''scalar 
-    def find_max(im_pths):
-    
-    
-    minimo_pixel=[]
-    maximo_pixel=[]
-    size=len(im_pths) 
-
-    for i in im_pths:
-        img = np.load(str(i))
-           
-        minimo_pixel.append(np.min(img))
-        maximo_pixel.append(np.max(img))
-
-    return   np.min(minimo_pixel),np.max(maximo_pixel), size
-        
-
-    '''

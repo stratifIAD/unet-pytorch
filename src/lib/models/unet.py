@@ -12,12 +12,6 @@ class ConvBlock(nn.Module):
                                kernel_size=3, padding=padding)
         self.batchnorm = nn.BatchNorm2d(outchannels)
 
-    # def forward(self, x):
-    #     x = F.relu(self.conv1(x))
-    #     x = self.batchnorm(x)
-    #     x = F.relu(self.conv2(x))
-    #     x = self.batchnorm(x)
-    #     return x
     def forward(self, x):
         x = self.conv1(x)
         x = self.batchnorm(x)
@@ -38,11 +32,6 @@ class UpBlock(nn.Module):
         # Adding batchnorm
         self.batchnorm = nn.BatchNorm2d(outchannels)
 
-    # def forward(self, x, locality_info):
-    #     x = self.upconv(x)
-    #     x = torch.cat([locality_info, x], 1) # adding in dim = 1 which is channels.
-    #     x = self.conv(x)
-    #     return x
     def forward(self, x, locality_info):
         x = self.upconv(x)
         #x = self.batchnorm(x)

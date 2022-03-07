@@ -10,7 +10,7 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import transforms
 
 from lib.trainer import Trainer
-from lib.dataset import stratifiadDataset
+from lib.dataset import WSIDataset
 from lib.transforms import ToTensor, Rescale
 
 import random
@@ -19,14 +19,14 @@ import numpy as np
 if __name__ == "__main__":
 
     '''Creating data parser for train.py'''
-    trainparser = argparse.ArgumentParser(description='[StratifIAD] Parameters for training', allow_abbrev=False)
+    trainparser = argparse.ArgumentParser(description='Parameters for training', allow_abbrev=False)
     trainparser.add_argument('-c','--config-file', type=str, default='configs/default_config_train.yaml', help='Config file for the experiment')
 
     args = trainparser.parse_args()
 
     conf = Dict(yaml.safe_load(open(args.config_file, "r")))
     
-    wandb.init(project="MICCAI-xval-xtest", entity="gabrieljg")
+    wandb.init(project="MICCAI")
     wandb.config.update(conf)
 
     torch.backends.cudnn.benchmark = True
@@ -53,13 +53,13 @@ if __name__ == "__main__":
     random.seed(random_seed)
     np.random.seed(random_seed)
 
-    train_dataset = stratifiadDataset(meta_data=train_file,
+    train_dataset = WSIDataset(meta_data=train_file,
                                 root_dir=data_dir, 
                                 normalization=normalization,
                                 cache_data=cache_data,
                                 transform=transforms.Compose([
                                 Rescale(rescale_factor), ToTensor()]))
-    dev_dataset = stratifiadDataset(meta_data=dev_file,
+    dev_dataset = WSIDataset(meta_data=dev_file,
                                 root_dir=data_dir,
                                 normalization=normalization,
                                 cache_data=cache_data,
@@ -67,7 +67,7 @@ if __name__ == "__main__":
                                 Rescale(rescale_factor), ToTensor()]))
     
     if test_file != 'none':
-        test_dataset = stratifiadDataset(meta_data=test_file,
+        test_dataset = WSIDataset(meta_data=test_file,
                                     root_dir=data_dir,
                                     normalization=normalization,
                                     cache_data=cache_data,

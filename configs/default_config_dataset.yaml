@@ -1,7 +1,0 @@
-datasetargs:
-  name: Dataset128x128
-  patchsize: 128
-  annotations_format: '.xml'
-  input_folder_slides: '/Users/gabriel.jimenez/Documents/project/AT8Dataset/AT8_wsi/'
-  input_folder_annotations: '/Users/gabriel.jimenez/Documents/project/AT8Dataset/AT8_wsi/'
-  output_folder: '/Users/gabriel.jimenez/Documents/project/togitlab/dataset/'

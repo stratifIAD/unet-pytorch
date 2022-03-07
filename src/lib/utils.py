@@ -63,7 +63,6 @@ def confusion_matrix(prediction, truth):
     - 1 and 0 (False Positive)
     - 0 and 0 (True Negative)
     - 0 and 1 (False Negative)
-    # Source of the confusion_matrix function: https://gist.github.com/the-bass
     """
     # Computing the confusion vector
     confusion_vector = prediction / truth
@@ -89,7 +88,6 @@ def confusion_matrix(prediction, truth):
 
 class EarlyStopping:
     """Early stops the training if validation loss doesn't improve after a given patience."""
-    """Taken from: https://github.com/Bjarten/early-stopping-pytorch"""
     def __init__(self, patience=7, verbose=False, delta=0, path='checkpoint.pt', trace_func=print):
         """
         Args:
