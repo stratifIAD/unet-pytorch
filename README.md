@@ -34,6 +34,17 @@ pipenv sync
 pipenv shell
 ```
 
+## Structure of the dataset:
+The acquisition of the WSI and the patch generation process is described in the article. The dataset used for the three experiments below can be found [here](https://drive.google.com/drive/folders/1EJRXdehoZYxytZYxiib2SZC0tznqF0jc?usp=sharing). 
+
+```
+.
++-- _config.yml
++-- _drafts
+|   +-- begin-with-the-crazy-ideas.textile
+|   +-- on-simplicity-in-technology.markdown
+```
+
 ## Running the experiments: 
 ### **Experiment 01:**
 This experiment uses the 8 WSI images in the dataset and the Macenko color normalization method.
@@ -75,7 +86,7 @@ sh test_00_128x128_bestfold_vahadane.sh
 ```
 
 ## Full results:
-### **UNet and attention UNet:**
+### **UNet and Attention UNet:**
 
 Table 01. Architecture used: UNet. Patch size: 128x128 pixels (best fold is reported in bold font).
 |   **fold_name**   | **dev_dice** | **dev_f1** | **dev_recall** | **dev_precision** | **test_dice** | **test_f1** | **test_recall** | **test_precision** |
