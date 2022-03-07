@@ -39,10 +39,12 @@ The acquisition of the WSI and the patch generation process is described in the 
 
 ```
 .
-+-- _config.yml
-+-- _drafts
-|   +-- begin-with-the-crazy-ideas.textile
-|   +-- on-simplicity-in-technology.markdown
+├── _config.yml
+├── _data
+│   └── members.yml
+├── _drafts
+│   ├── begin-with-the-crazy-ideas.md
+│   └── on-simplicity-in-technology.md
 ```
 
 ## Running the experiments: 
