@@ -69,7 +69,7 @@ dataset
 
 ## Running the experiments: 
 ### **Experiment 01:**
-This experiment uses the 8 WSI images in the dataset and the Macenko color normalization method.
+This experiment uses the 8 WSI images in the dataset and the Macenko color normalization method. We use this experiment to analyze how the network performs under different modalities and also when increasing the environment of the object (i.e., different patch sizes).
 
 - For the 128x128 patch-size dataset, with cross validation and cross testing:
 ```shell
