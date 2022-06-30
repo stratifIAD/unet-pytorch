@@ -22,7 +22,7 @@ pip3 install --user pipenv
 
 ## Setting up the environment and dependencies:
 
-- Inside the main directory (`miccai-2022`), run the following command to syncronize all the dependencies:
+- Inside the main directory, run the following command to syncronize all the dependencies:
 
 ```shell
 pipenv sync
@@ -35,7 +35,7 @@ pipenv shell
 ```
 
 ## Structure of the dataset:
-The acquisition of the WSI and the patch generation process is described in the article. The dataset used for the three experiments below can be found [here](https://drive.google.com/drive/folders/1EJRXdehoZYxytZYxiib2SZC0tznqF0jc?usp=sharing). The structure is as follows:
+The acquisition of the WSI and the patch generation process is described in the article. The dataset used for the three experiments below can be found [here](https://doi.org/10.6084/m9.figshare.20188142.v1) (size: 128x128) and [here](https://doi.org/10.6084/m9.figshare.20186840.v1) (size: 256x256). The structure is as follows:
 
 ```
 dataset
