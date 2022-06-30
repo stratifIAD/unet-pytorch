@@ -1,7 +1,18 @@
 # MICCAI 2022 - Paper ID: 2116
 
-## Setting up the OS:
+## How to cite the paper:
+If you use this code and/or the dataset, please cite the following paper:
+```
+@InProceedings{miccai-paper-2116,
+author="Jimenez, Gabriel and Kar, Anuradha and Ounissi, Mehdi and Ingrassia, Léa and Boluda, Susana and Delatour, Benoît and Stimmer, Lev and Racoceanu, Lev",
+title="Visual DL-based explanation for neuritic plaques segmentation in Alzheimer's Disease",
+booktitle="Medical Image Computing and Computer-Assisted Intervention -- MICCAI 2022",
+year="2022",
+publisher="Springer International Publishing",
+}
+```
 
+## Setting up the OS:
 - This code was develop and runs properly in Ubuntu 18.04 and with Python 3.6.9
 
 ```
@@ -21,7 +32,6 @@ pip3 install --user pipenv
 ```
 
 ## Setting up the environment and dependencies:
-
 - Inside the main directory, run the following command to syncronize all the dependencies:
 
 ```shell
@@ -68,11 +78,12 @@ dataset
 | **vahadane** | contains all the patches and its corresponding corner augmentations using Vahadane method for color normalization. Files are named in sequential order according to the annotations in the WSI and the augmented ones have an additional `_Cx.png` added to the name, where `x` is one of the four corners. |
 
 ## Running the experiments: 
-### **Experiment 01:**
+### **UNet - Experiment 01:**
 This experiment uses the 8 WSI images in the dataset and the Macenko color normalization method. We use this experiment to analyze how the network performs under different modalities and also when increasing the environment of the object (i.e., different patch sizes).
 
 - For the 128x128 patch-size dataset, with cross validation and cross testing:
 ```shell
+cd unet
 sh test_00_128x128.sh
 sh test_01_128x128.sh
 sh test_02_128x128.sh
@@ -81,30 +92,52 @@ sh test_03_128x128.sh
 
 - For the 256x256 patch-size dataset, with cross validation and cross testing:
 ```shell
+cd unet
 sh test_00_256x256.sh
 sh test_01_256x256.sh
 sh test_02_256x256.sh
 sh test_03_256x256.sh
 ```
 
-### **Experiment 02:**
+### **UNet - Experiment 02:**
 This experiment evaluates the impact of the scanner in the segmentation of plaques. We use only the 128x128 patch-size dataset as we obtained better performance with this patches in the first experiment.
 
 - To train using the WSI from the scanner Hamamatsu NanoZoomer 2.0-RS:
 ```shell
+cd unet
 sh test_00_128x128_oldscan.sh
 ```
 
 - To train using the WSI from the scanner Hamamatsu NanoZoomer S60:
 ```shell
+cd unet
 sh test_00_128x128_newscan.sh
 ```
 
-### **Experiment 03:**
+### **UNet - Experiment 03:**
 This experiment evaluates the impact of the color normalization. We use only the 128x128 patch-size dataset and the configuration of the best fold from the first experiment.
 
 ```shell
+cd unet
 sh test_00_128x128_bestfold_vahadane.sh
+```
+
+### **Attention UNet:**
+This experiment evaluates the performance of the attention UNet in different patch size datasets. You will need to manually configure the following line in the file `train_att_unet.py` (provided that your data follows the structure mentioned above):
+
+- To use the 128x128 dataset:
+```python
+main_data_dir = os.path.join('..', '..', '..','dataset','128x128')
+```
+
+- To use the 256x256 dataset:
+```python
+main_data_dir = os.path.join('..', '..', '..','dataset','256x256')
+```
+
+- To run the experiment:
+```shell
+python train_att_unet.py
 ```
 
 ## Full results:
