@@ -5,6 +5,7 @@ import pandas as pd
 from sklearn.model_selection import KFold
 import tqdm
 
+# main
 if __name__ == "__main__":
     '''
     [StratifIAD] Script that divides data into N groups. Each group will form a fold for the 
