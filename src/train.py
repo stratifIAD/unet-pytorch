@@ -40,9 +40,11 @@ if __name__ == "__main__":
     rescale_factor = conf.dataset.rescale_factor
 
     name = dev_file.replace('dev','test').split('.')[0].split('/')[-1]
-    wandb.run.name = f'{conf.dataset.experiment}_{name}_patchSize_{rescale_factor}'
-    print(f'RUN: {wandb.run.name}')
+    tb_exp_name = f'{conf.dataset.experiment}_{name}_patchSize_{rescale_factor}'
+    # wandb.run.name = f'{conf.dataset.experiment}_{name}_patchSize_{rescale_factor}'
+    # print(f'RUN: {wandb.run.name}')
     
+
     # Setting a random seed for reproducibility
     if conf.train_par.random_seed == 'default':
         random_seed = 2022
@@ -89,7 +91,7 @@ if __name__ == "__main__":
 
     results_path = os.path.join(conf.train_par.results_path, conf.dataset.experiment)
     os.makedirs(results_path, exist_ok=True)
-    conf.train_par.results_model_filename = os.path.join(results_path, f'{wandb.run.name}.pt')
+    conf.train_par.results_model_filename = os.path.join(results_path, f'{tb_exp_name}.pt')
 
     trainer = Trainer(model_opts=conf.model_opts, train_par=conf.train_par, loaders=loaders)
     trainer.train(conf.train_par.epochs)
