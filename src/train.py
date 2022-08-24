@@ -1,10 +1,11 @@
 import argparse
 import yaml
 from addict import Dict
-import wandb
+# import wandb
 import os
 
 import torch
+from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import transforms
@@ -26,8 +27,8 @@ if __name__ == "__main__":
 
     conf = Dict(yaml.safe_load(open(args.config_file, "r")))
     
-    wandb.init(project="MICCAI-xval-xtest", entity="gabrieljg")
-    wandb.config.update(conf)
+    # wandb.init(project="MICCAI-xval-xtest", entity="gabrieljg")
+    # wandb.config.update(conf)
 
     torch.backends.cudnn.benchmark = True
 
