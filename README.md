@@ -23,19 +23,32 @@ Gabriel Jimenez, Anuradha Kar, Mehdi Ounissi, Léa Ingrassia, Susana Boluda, Ben
     - Evaluate the impact of context information and antibodies on the DL performance.
 
 ## Data available
+Properties of the datasets used in the study. For details about the sampling protocols and data augmentation please refer to the article.
+
 |   **Dataset 1**   |   **Dataset 2**   |
 |:-----------------:|:-----------------:|
 |       6 WSI       |       8 WSI       |
 | ALZ50 antibodies  | AT8 antibodies    |
 | NanoZoomer 2.0-RS | NanoZoomer 2.0-RS & S60 |
-| 5000 manual annotations ||
 | 128x128 patch-size | 128x128 & 256x256 patch-size |
 | 20x (227 nm/px @ 40x) | 20x (227 & 221 nm/px @ 40x) |
 
-[Properties of the datasets used in the study. For details about the sampling protocols and data augmentation please refer to the article.]
-
 ## Results
 
+<p align="center">
+    <img width="80%" src="https://github.com/ounissimehdi/PhagoStat/blob/main/demos/result_aggr.gif?raw=true">
+    <br>Real time aggregate quantification
+</p>
+
+<p align="center">
+    <img width="80%" src="https://github.com/ounissimehdi/PhagoStat/blob/main/demos/result_aggr.gif?raw=true">
+    <br>Real time aggregate quantification
+</p>
+
+<p align="center">
+    <img width="80%" src="https://github.com/ounissimehdi/PhagoStat/blob/main/demos/result_aggr.gif?raw=true">
+    <br>Real time aggregate quantification
+</p>
 
 ## Application
 
