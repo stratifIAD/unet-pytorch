@@ -35,6 +35,8 @@ Properties of the datasets used in the study. For details about the sampling pro
 
 ## Results
 
+See all the results and analysis in our [github](https://github.com/aramis-lab/miccai2022-stratifiad) and [article](https://export.arxiv.org/abs/2302.08511).
+
 <p align="center">
     <img width="80%" src="https://github.com/stratifIAD/unet-pytorch/blob/098f742f58799e4ff277d0f4f1c6ecb32e257ed1/imgs/patchsize.png">
     <br>Example of plaque image for different levels of context. It was shown that context information impacted on the network perfomance.
