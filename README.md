@@ -45,13 +45,12 @@ Properties of the datasets used in the study. For details about the sampling pro
     <br>Real time aggregate quantification
 </p>
 
+## Application
+
 <p align="center">
     <img width="80%" src="https://github.com/ounissimehdi/PhagoStat/blob/main/demos/result_aggr.gif?raw=true">
     <br>Real time aggregate quantification
 </p>
-
-## Application
-
 
 ## How to cite this work:
 This project was published in MICCAI 2022. Use the following citation is you used the github code and/or the dataset associated to it. 
