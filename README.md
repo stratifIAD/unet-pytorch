@@ -22,8 +22,8 @@ Gabriel Jimenez, Anuradha Kar, Mehdi Ounissi, Léa Ingrassia, Susana Boluda, Ben
     - Manual annotation refinement using deep learning attention mechanisms and visual explainability features from DL models.
     - Evaluate the impact of context information and antibodies on the DL performance.
 
-## Data available
-Properties of the datasets used in the study. For details about the sampling protocols and data augmentation please refer to the article.
+## Dataset
+Properties of the datasets used in the study. For details about the sampling protocols and data augmentation please refer to the [article](https://export.arxiv.org/abs/2302.08511).
 
 |   **Dataset 1**   |   **Dataset 2**   |
 |:-----------------:|:-----------------:|
@@ -37,23 +37,40 @@ Properties of the datasets used in the study. For details about the sampling pro
 
 <p align="center">
     <img width="80%" src="https://github.com/stratifIAD/unet-pytorch/blob/098f742f58799e4ff277d0f4f1c6ecb32e257ed1/imgs/patchsize.png">
-    <br>Real time aggregate quantification
+    <br>Example of plaque image for different levels of context. It was shown that context information impacted on the network perfomance.
 </p>
 
 <p align="center">
     <img width="80%" src="https://github.com/stratifIAD/unet-pytorch/blob/098f742f58799e4ff277d0f4f1c6ecb32e257ed1/imgs/att_unet.png">
-    <br>Real time aggregate quantification
+    <br>Focus progression using successive activation layers of attention-UNet. This model proved to be useful for improving the manual annotations of neuritic plaques.
 </p>
 
 ## Application
 
 <p align="center">
     <img width="80%" src="https://github.com/stratifIAD/unet-pytorch/blob/098f742f58799e4ff277d0f4f1c6ecb32e257ed1/imgs/stratifiad-system.png">
-    <br>Real time aggregate quantification
+    <br>Final application using the deep learning pipelines developed in the project. The main goal is to achieve patient stratification.
 </p>
 
+## Key ideas from the study
+1. Antibodies can impact the detection and segmentation of tau aggregates in WSI.
+    - AT8 creates less compact structures making segmentation of plaques challenging. 
+
+2. WSI are frequently acquired using different scanners having different properties.
+    - Amplification of human-software annotation errors.
+
+3. The context effect in segmentation
+    - Related to the negative impact of larger patch size.
+
+4. Visual explainability to improve manual annotations.
+    - Improve morphological analysis of tau aggregates.
+
+5. Benchmark with commercial software
+    - Outperformed in test dataset. Commercial software follows a black-box approach; therefore, no explainability
+
 ## How to cite this work:
-This project was published in MICCAI 2022. Use the following citation is you used the github code and/or the dataset associated to it. 
+
+This project was published in MICCAI 2022. Use the following citation if you used the [github](https://github.com/aramis-lab/miccai2022-stratifiad) code and/or the dataset associated to it. 
 
 ```
 @InProceedings{miccai-paper-2116,
