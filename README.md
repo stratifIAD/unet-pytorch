@@ -36,19 +36,19 @@ Properties of the datasets used in the study. For details about the sampling pro
 ## Results
 
 <p align="center">
-    <img width="80%" src="https://github.com/ounissimehdi/PhagoStat/blob/main/demos/result_aggr.gif?raw=true">
+    <img width="80%" src="https://github.com/stratifIAD/unet-pytorch/blob/098f742f58799e4ff277d0f4f1c6ecb32e257ed1/imgs/patchsize.png">
     <br>Real time aggregate quantification
 </p>
 
 <p align="center">
-    <img width="80%" src="https://github.com/ounissimehdi/PhagoStat/blob/main/demos/result_aggr.gif?raw=true">
+    <img width="80%" src="https://github.com/stratifIAD/unet-pytorch/blob/098f742f58799e4ff277d0f4f1c6ecb32e257ed1/imgs/att_unet.png">
     <br>Real time aggregate quantification
 </p>
 
 ## Application
 
 <p align="center">
-    <img width="80%" src="https://github.com/ounissimehdi/PhagoStat/blob/main/demos/result_aggr.gif?raw=true">
+    <img width="80%" src="https://github.com/stratifIAD/unet-pytorch/blob/098f742f58799e4ff277d0f4f1c6ecb32e257ed1/imgs/stratifiad-system.png">
     <br>Real time aggregate quantification
 </p>
 
