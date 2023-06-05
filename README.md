@@ -31,6 +31,7 @@ Gabriel Jimenez, Anuradha Kar, Mehdi Ounissi, Léa Ingrassia, Susana Boluda, Ben
 | 5000 manual annotations ||
 | 128x128 patch-size | 128x128 & 256x256 patch-size |
 | 20x (227 nm/px @ 40x) | 20x (227 & 221 nm/px @ 40x) |
+
 [Properties of the datasets used in the study. For details about the sampling protocols and data augmentation please refer to the article.]
 
 ## Results
